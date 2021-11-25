@@ -1,0 +1,6 @@
+{
+	"appId": "fr.gui",
+	"appName": "GUI",
+	"webDir": "../../dist/apps/mobile",
+	"bundledWebRuntime": false
+}

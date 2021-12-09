@@ -1,0 +1,12 @@
+{
+  "name": "openapi",
+  "main": "ui/index.js",
+  "scripts": {
+    "generate": "openapi-generator-cli generate -g openapi -i reference/gui.yaml -o ./ui",
+    "serve": "serve -l 5000 ui/"
+  },
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.4.18",
+    "serve": "^13.0.2"
+  }
+}

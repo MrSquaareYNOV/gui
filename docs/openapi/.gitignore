@@ -1,0 +1,9 @@
+# Node
+node_modules/
+
+# OpenAPI Tools
+openapitools.json
+
+# UI
+ui/**
+!ui/index.html

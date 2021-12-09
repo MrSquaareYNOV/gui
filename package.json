@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "openapi:generate": "npm --prefix docs/openapi run generate",
+    "openapi:serve": "npm --prefix docs/openapi run serve",
     "start": "nx serve",
     "build": "nx build",
     "test": "nx test"

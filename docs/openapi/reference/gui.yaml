@@ -1,0 +1,734 @@
+openapi: 3.1.0
+info:
+  title: gui
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /register:
+    post:
+      summary: Register a new user
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      $ref: ../models/Error.yaml
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      $ref: ../models/Error.yaml
+      operationId: post-register
+      x-internal: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+              required:
+                - email
+                - password
+  /login:
+    post:
+      summary: Login to an user
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      $ref: ../models/Error.yaml
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      $ref: ../models/Error.yaml
+      operationId: post-login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - email
+                - password
+  /bikes:
+    get:
+      summary: Get a list of bike
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  bikes:
+                    type: array
+                    items:
+                      $ref: ../models/Bike.yaml
+        '401':
+          description: Unauthorized
+      operationId: get-bikes
+      parameters:
+        - schema:
+            type: string
+            pattern: '^Bearer [\w-]*\.[\w-]*\.[\w-]*$'
+          in: header
+          name: Authorization
+          required: true
+    post:
+      summary: Create a bike
+      operationId: post-bikes
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  bike:
+                    $ref: ../models/Bike.yaml
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      $ref: ../models/Error.yaml
+        '401':
+          description: Unauthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      parameters:
+        - schema:
+            type: string
+            pattern: '^Bearer [\w-]*\.[\w-]*\.[\w-]*$'
+          in: header
+          name: Authorization
+          required: true
+  '/bikes/${bikeId}':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: bikeId
+        in: path
+        required: true
+    get:
+      summary: Get a bike
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  bike:
+                    $ref: ../models/Bike.yaml
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      operationId: get-bikes-$-bikeId
+      parameters:
+        - schema:
+            type: string
+            pattern: '^Bearer [\w-]*\.[\w-]*\.[\w-]*$'
+          in: header
+          name: Authorization
+          required: true
+    patch:
+      summary: Update a bike
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  bike:
+                    $ref: ../models/Bike.yaml
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      operationId: patch-bikes-$-bikeId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      parameters:
+        - schema:
+            type: string
+            pattern: '^Bearer [\w-]*\.[\w-]*\.[\w-]*$'
+          in: header
+          name: Authorization
+          required: true
+    delete:
+      summary: Delete a bike
+      tags: []
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      operationId: delete-bikes-$-bikeId
+      parameters:
+        - schema:
+            type: string
+            pattern: '^Bearer [\w-]*\.[\w-]*\.[\w-]*$'
+          in: header
+          name: Authorization
+          required: true
+  /parks:
+    get:
+      summary: Get a list of park
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  parks:
+                    type: array
+                    items:
+                      $ref: ../models/Park.yaml
+        '401':
+          description: Unauthorized
+      operationId: get-parks
+      parameters:
+        - schema:
+            type: string
+            pattern: '^Bearer [\w-]*\.[\w-]*\.[\w-]*$'
+          in: header
+          name: Authorization
+          required: true
+    post:
+      summary: Create a park
+      operationId: post-parks
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  park:
+                    $ref: ../models/Park.yaml
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      $ref: ../models/Error.yaml
+        '401':
+          description: Unauthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                location:
+                  type: string
+                  pattern: '\d{1,3}\.\d{1,9},\d{1,3}\.\d{1,9}'
+              required:
+                - name
+                - location
+      parameters:
+        - schema:
+            type: string
+            pattern: '^Bearer [\w-]*\.[\w-]*\.[\w-]*$'
+          in: header
+          name: Authorization
+          required: true
+  '/parks/{parkId}':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: parkId
+        in: path
+        required: true
+    get:
+      summary: Get a park
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  park:
+                    $ref: ../models/Park.yaml
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      operationId: get-parks-parkId
+      parameters:
+        - schema:
+            type: string
+            pattern: '^Bearer [\w-]*\.[\w-]*\.[\w-]*$'
+          in: header
+          name: Authorization
+          required: true
+    patch:
+      summary: Update a park
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  park:
+                    $ref: ../models/Park.yaml
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      operationId: patch-parks-parkId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                location:
+                  type: string
+                  pattern: '\d{1,3}\.\d{1,9},\d{1,3}\.\d{1,9}'
+      parameters:
+        - schema:
+            type: string
+            pattern: '^Bearer [\w-]*\.[\w-]*\.[\w-]*$'
+          in: header
+          name: Authorization
+          required: true
+    delete:
+      summary: Delete a park
+      tags: []
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      operationId: delete-parks-parkId
+      parameters:
+        - schema:
+            type: string
+            pattern: '^Bearer [\w-]*\.[\w-]*\.[\w-]*$'
+          in: header
+          name: Authorization
+          required: true
+  /stations:
+    get:
+      summary: Get a list of station
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  stations:
+                    type: array
+                    items:
+                      $ref: ../models/Station.yaml
+        '401':
+          description: Unauthorized
+      operationId: get-stations
+      parameters:
+        - schema:
+            type: string
+            pattern: '^Bearer [\w-]*\.[\w-]*\.[\w-]*$'
+          in: header
+          name: Authorization
+          required: true
+    post:
+      summary: Create a station
+      operationId: post-stations
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      $ref: ../models/Error.yaml
+        '401':
+          description: Unauthorized
+      parameters:
+        - schema:
+            type: string
+            pattern: '^Bearer [\w-]*\.[\w-]*\.[\w-]*$'
+          in: header
+          name: Authorization
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                location:
+                  type: string
+                  pattern: '\d{1,3}\.\d{1,9},\d{1,3}\.\d{1,9}'
+              required:
+                - name
+                - location
+  '/stations/${stationId}':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: stationId
+        in: path
+        required: true
+    get:
+      summary: Get a station
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  station:
+                    $ref: ../models/Station.yaml
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      operationId: get-stations-$-stationId
+      parameters:
+        - schema:
+            type: string
+            pattern: '^Bearer [\w-]*\.[\w-]*\.[\w-]*$'
+          in: header
+          name: Authorization
+          required: true
+    patch:
+      summary: Update a station
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  station:
+                    $ref: ../models/Station.yaml
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      operationId: patch-stations-$-stationId
+      parameters:
+        - schema:
+            type: string
+            pattern: '^Bearer [\w-]*\.[\w-]*\.[\w-]*$'
+          in: header
+          name: Authorization
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                location:
+                  type: string
+                  pattern: '\d{1,3}\.\d{1,9},\d{1,3}\.\d{1,9}'
+    delete:
+      summary: Delete a station
+      tags: []
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      operationId: delete-stations-$-stationId
+      parameters:
+        - schema:
+            type: string
+            pattern: '^Bearer [\w-]*\.[\w-]*\.[\w-]*$'
+          in: header
+          name: Authorization
+          required: true
+  /users:
+    get:
+      summary: Get user list
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: ../models/User.yaml
+        '401':
+          description: Unauthorized
+      operationId: get-users
+      parameters:
+        - schema:
+            type: string
+            pattern: '^Bearer [\w-]*\.[\w-]*\.[\w-]*$'
+          in: header
+          name: Authorization
+          required: true
+  '/users/{userId}':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: userId
+        in: path
+        required: true
+    get:
+      summary: Get an user
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: ../models/User.yaml
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      operationId: get-users-userId
+      parameters:
+        - schema:
+            type: string
+            pattern: '^Bearer [\w-]*\.[\w-]*\.[\w-]*$'
+          in: header
+          name: Authorization
+          required: true
+    patch:
+      summary: Update an user
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: ../models/User.yaml
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      operationId: patch-users-userId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      parameters:
+        - schema:
+            type: string
+            pattern: '^Bearer [\w-]*\.[\w-]*\.[\w-]*$'
+          in: header
+          name: Authorization
+          required: true
+    delete:
+      summary: Delete an user
+      tags: []
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      operationId: delete-users-userId
+      parameters:
+        - schema:
+            type: string
+            pattern: '^Bearer [\w-]*\.[\w-]*\.[\w-]*$'
+          in: header
+          name: Authorization
+          required: true
+  '/bikes/{bikeId}/rent':
+    parameters:
+      - schema:
+          type: string
+        name: bikeId
+        in: path
+        required: true
+    post:
+      summary: Rent a bike
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      operationId: post-bikes-bikeId-rent
+      parameters:
+        - schema:
+            type: string
+            pattern: '^Bearer [\w-]*\.[\w-]*\.[\w-]*$'
+          in: header
+          name: Authorization
+          required: true
+  '/bikes/{bikeId}/return':
+    parameters:
+      - schema:
+          type: string
+        name: bikeId
+        in: path
+        required: true
+    post:
+      summary: Return a bike
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      operationId: post-bikes-bikeId-return
+      parameters:
+        - schema:
+            type: string
+            pattern: '^Bearer [\w-]*\.[\w-]*\.[\w-]*$'
+          in: header
+          name: Authorization
+          required: true
+components:
+  schemas: {}
+  responses: {}
+  securitySchemes: {}

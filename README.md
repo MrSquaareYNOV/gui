@@ -59,3 +59,19 @@ Build:
 ```shell script
 nx run web:build
 ```
+
+## Documentation
+
+### OpenAPI
+
+Generate:
+
+```shell script
+npm run openapi:generate
+```
+
+Serve:
+
+```shell script
+npm run openapi:serve
+```

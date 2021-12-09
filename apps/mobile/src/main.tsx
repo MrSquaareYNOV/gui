@@ -1,3 +1,6 @@
+import 'modern-normalize/modern-normalize.css';
+import 'leaflet/dist/leaflet.css';
+
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';

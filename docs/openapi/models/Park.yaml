@@ -9,7 +9,12 @@ properties:
   location:
     type: string
     pattern: '\d{1,3}\.\d{1,9},\d{1,3}\.\d{1,9}'
+  stations:
+    type: array
+    items:
+      $ref: ./Station.yaml
 required:
   - id
   - name
   - location
+  - stations

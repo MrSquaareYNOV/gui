@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.0.0
 info:
   title: gui
   version: '1.0'
@@ -136,6 +136,7 @@ paths:
           required: true
     post:
       summary: Create a bike
+      tags: []
       operationId: post-bikes
       responses:
         '201':
@@ -253,6 +254,56 @@ paths:
           in: header
           name: Authorization
           required: true
+  '/bikes/{bikeId}/rent':
+    parameters:
+      - schema:
+          type: string
+        name: bikeId
+        in: path
+        required: true
+    post:
+      summary: Rent a bike
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      operationId: post-bikes-bikeId-rent
+      parameters:
+        - schema:
+            type: string
+            pattern: '^Bearer [\w-]*\.[\w-]*\.[\w-]*$'
+          in: header
+          name: Authorization
+          required: true
+  '/bikes/{bikeId}/return':
+    parameters:
+      - schema:
+          type: string
+        name: bikeId
+        in: path
+        required: true
+    post:
+      summary: Return a bike
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      operationId: post-bikes-bikeId-return
+      parameters:
+        - schema:
+            type: string
+            pattern: '^Bearer [\w-]*\.[\w-]*\.[\w-]*$'
+          in: header
+          name: Authorization
+          required: true
   /parks:
     get:
       summary: Get a list of park
@@ -281,6 +332,7 @@ paths:
           required: true
     post:
       summary: Create a park
+      tags: []
       operationId: post-parks
       responses:
         '201':
@@ -441,6 +493,7 @@ paths:
           required: true
     post:
       summary: Create a station
+      tags: []
       operationId: post-stations
       responses:
         '200':
@@ -671,56 +724,6 @@ paths:
         '404':
           description: Not Found
       operationId: delete-users-userId
-      parameters:
-        - schema:
-            type: string
-            pattern: '^Bearer [\w-]*\.[\w-]*\.[\w-]*$'
-          in: header
-          name: Authorization
-          required: true
-  '/bikes/{bikeId}/rent':
-    parameters:
-      - schema:
-          type: string
-        name: bikeId
-        in: path
-        required: true
-    post:
-      summary: Rent a bike
-      tags: []
-      responses:
-        '200':
-          description: OK
-        '401':
-          description: Unauthorized
-        '404':
-          description: Not Found
-      operationId: post-bikes-bikeId-rent
-      parameters:
-        - schema:
-            type: string
-            pattern: '^Bearer [\w-]*\.[\w-]*\.[\w-]*$'
-          in: header
-          name: Authorization
-          required: true
-  '/bikes/{bikeId}/return':
-    parameters:
-      - schema:
-          type: string
-        name: bikeId
-        in: path
-        required: true
-    post:
-      summary: Return a bike
-      tags: []
-      responses:
-        '200':
-          description: OK
-        '401':
-          description: Unauthorized
-        '404':
-          description: Not Found
-      operationId: post-bikes-bikeId-return
       parameters:
         - schema:
             type: string

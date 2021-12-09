@@ -1,0 +1,50 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+}
+
+.header {
+  background-color: blue;
+  width: 100%;
+  display: flex;
+  margin: 20px auto;
+
+  img {
+    height: 50px;
+  }
+}
+
+.map {
+  height: 400px;
+  width: 100%;
+  // flex-grow: 1;
+}
+
+.nav {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 50px;
+  line-height: 50px;
+  background-color: green;
+  ul {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+
+    li {
+      display: flex;
+    }
+  }
+}
+
+.separator {
+  width: 1px;
+  height: 80%;
+  margin: auto 0 auto 20px;
+  background-color: black;
+}

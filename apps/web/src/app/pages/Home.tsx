@@ -3,9 +3,13 @@ import { FC } from 'react';
 import { Route, useHistory } from 'react-router-dom';
 
 import styles from './Home.module.scss';
-import { Find } from '../components/home/Find';
-import { List } from '../components/home/List';
-import { Manage } from '../components/home/Manage';
+import { Find } from '../components/home/find/Find';
+import { List } from '../components/home/list/List';
+import { Manage } from '../components/home/manage/Manage';
+import { Bikes } from '../components/home/list/Bikes';
+import { Stations } from '../components/home/list/Stations';
+import { Parks } from '../components/home/list/Parks';
+import { Users } from '../components/home/list/Users';
 
 export const Home: FC = () => {
   const history = useHistory();
@@ -38,7 +42,7 @@ export const Home: FC = () => {
               sx={{ width: '100%' }}
               onClick={() => history.push('/home/manage')}
             >
-              Gestion
+              Gérer
             </Button>
           </div>
           <div className={styles.navigationButtonContainer}>
@@ -55,6 +59,18 @@ export const Home: FC = () => {
       <div className={styles.main}>
         <Route exact path="/home">
           <List />
+        </Route>
+        <Route exact path="/home/bikes">
+          <Bikes />
+        </Route>
+        <Route exact path="/home/stations">
+          <Stations />
+        </Route>
+        <Route exact path="/home/parks">
+          <Parks />
+        </Route>
+        <Route exact path="/home/users">
+          <Users />
         </Route>
         <Route exact path="/home/manage">
           <Manage />

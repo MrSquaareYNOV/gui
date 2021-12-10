@@ -1,0 +1,20 @@
+.container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.boxContainer {
+  background-color: #3777d3;
+  border-radius: 100px;
+  padding: 16px 100px;
+}
+
+.fieldContainer {
+  margin: 1rem 0;
+}
+
+.buttonContainer {
+  margin-top: 2rem;
+}

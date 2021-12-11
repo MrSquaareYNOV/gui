@@ -1,11 +1,13 @@
 import { Box, Button, TextField } from '@mui/material';
 import React, { FC } from 'react';
+import Logo from '../../assets/Logo.svg';
 
 import styles from './Login.module.scss';
 
 export const Login: FC = () => {
   return (
     <div className={styles.container}>
+      <img src={Logo}/>
       <div className={styles.boxContainer}>
         <div className={styles.fieldContainer}>
           <TextField

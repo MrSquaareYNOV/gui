@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import React, { FC } from 'react';
 import Logo from '../../assets/Logo.svg';
 
@@ -7,13 +7,17 @@ import styles from './Login.module.scss';
 export const Login: FC = () => {
   return (
     <div className={styles.container}>
-      <img src={Logo}/>
+      <div className={styles.logoContainer}>
+        <img src={Logo} alt="Logo" />
+        <h1 className={styles.logoTexte}>GUICYCLE</h1>
+      </div>
       <div className={styles.boxContainer}>
         <div className={styles.fieldContainer}>
           <TextField
             id="username"
             label="Username"
             variant="standard"
+            font-color="white"
             sx={{
               input: {
                 color: '#fff',

@@ -10,6 +10,7 @@ import { Bikes } from '../components/home/list/Bikes';
 import { Stations } from '../components/home/list/Stations';
 import { Parks } from '../components/home/list/Parks';
 import { Users } from '../components/home/list/Users';
+import { ManageBikes } from '../components/home/manage/Bikes';
 
 export const Home: FC = () => {
   const history = useHistory();
@@ -56,6 +57,7 @@ export const Home: FC = () => {
           </div>
         </div>
       </div>
+
       <div className={styles.main}>
         <Route exact path="/home">
           <List />
@@ -78,6 +80,25 @@ export const Home: FC = () => {
         <Route exact path="/home/find">
           <Find />
         </Route>
+        <Route exact path="/home/find">
+          <Find />
+        </Route>
+        <Route exact path="/home/manage/bikes">
+          <ManageBikes />
+        </Route>
+
+        {/* TO CREATE / NO IMPORT
+        <Route exact path="/home/manage/station">
+          <ManageStations />
+        </Route>
+        <Route exact path="/home/manage/parks">
+          <ManageParks />
+        </Route>
+        <Route exact path="/home/manage/users">
+          <ManageUsers />
+        </Route>
+        */}
+
       </div>
     </div>
   );

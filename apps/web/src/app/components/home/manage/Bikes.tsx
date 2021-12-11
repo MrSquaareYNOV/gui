@@ -15,13 +15,7 @@ export const ManageBikes: FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.headerContainer}>
-        <h1 className={styles.header}>Liste des vélos</h1>
-        <Button
-          variant="contained"
-          onClick={() => history.push('/manage/bikes')}
-        >
-          hello
-        </Button>
+        <h1 className={styles.header}>Gestion des vélos</h1>
       </div>
       <BikeList bikes={bikeRepository.bikes} />
     </div>

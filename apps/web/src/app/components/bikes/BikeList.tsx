@@ -21,7 +21,9 @@ export const BikeList: FC<Props> = ({ bikes }) => {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>UUID</TableCell>
+            <TableCell> <strong>ID</strong></TableCell>
+            <TableCell><strong>Name</strong></TableCell>
+            <TableCell><strong>Mise en service</strong></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -30,10 +32,17 @@ export const BikeList: FC<Props> = ({ bikes }) => {
               <TableCell component="th" scope="row">
                 {bike.id}
               </TableCell>
+              <TableCell component="th" scope="row">
+                {bike.name}
+              </TableCell>
+              <TableCell component="th" scope="row">
+                {bike.MES}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
+
   );
 };

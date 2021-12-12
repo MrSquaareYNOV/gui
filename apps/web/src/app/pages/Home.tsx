@@ -11,6 +11,10 @@ import { Stations } from '../components/home/list/Stations';
 import { Parks } from '../components/home/list/Parks';
 import { Users } from '../components/home/list/Users';
 import { ManageBikes } from '../components/home/manage/Bikes';
+import { ManageStations } from '../components/home/manage/Stations';
+import { ManageParks } from '../components/home/manage/Parks';
+import { ManageUsers } from '../components/home/manage/Users';
+
 
 export const Home: FC = () => {
   const history = useHistory();
@@ -58,10 +62,15 @@ export const Home: FC = () => {
         </div>
       </div>
 
+
+      { /* Route HOME */}
+
       <div className={styles.main}>
         <Route exact path="/home">
           <List />
         </Route>
+
+        {/* Route LIST */}
         <Route exact path="/home/bikes">
           <Bikes />
         </Route>
@@ -77,18 +86,17 @@ export const Home: FC = () => {
         <Route exact path="/home/manage">
           <Manage />
         </Route>
+
+        {/* Route FIND */}
         <Route exact path="/home/find">
           <Find />
         </Route>
-        <Route exact path="/home/find">
-          <Find />
-        </Route>
+
+        {/* Route MANAGE */}
         <Route exact path="/home/manage/bikes">
           <ManageBikes />
         </Route>
-
-        {/* TO CREATE / NO IMPORT
-        <Route exact path="/home/manage/station">
+        <Route exact path="/home/manage/stations">
           <ManageStations />
         </Route>
         <Route exact path="/home/manage/parks">
@@ -97,8 +105,6 @@ export const Home: FC = () => {
         <Route exact path="/home/manage/users">
           <ManageUsers />
         </Route>
-        */}
-
       </div>
     </div>
   );

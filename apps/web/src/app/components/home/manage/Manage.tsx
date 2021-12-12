@@ -13,22 +13,22 @@ export const Manage: FC = () => {
     <div className={styles.container}>
       <div className={styles.buttonContainer}>
         <Button variant="contained" sx={{ width: '100%' }} onClick={() => history.push('/home/manage/bikes')} >
-          Gérer des vélos
+          Gérer les vélos
         </Button>
       </div>
       <div className={styles.buttonContainer}>
         <Button variant="contained" sx={{ width: '100%' }} onClick={() => history.push('/home/manage/stations')} >
-          Gérer des stations
+          Gérer les stations
         </Button>
       </div>
       <div className={styles.buttonContainer}>
         <Button variant="contained" sx={{ width: '100%' }} onClick={() => history.push('/home/manage/parks')}>
-          Gérer des parcs
+          Gérer les parcs
         </Button>
       </div>
       <div className={styles.buttonContainer}>
         <Button variant="contained" sx={{ width: '100%' }} onClick={() => history.push('/home/manage/users')}>
-          Gérer des utilisateurs
+          Gérer les utilisateurs
         </Button>
       </div>
     </div>

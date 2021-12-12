@@ -18,7 +18,7 @@ export const Bikes: FC = () => {
         <h1 className={styles.header}>Liste des vélos</h1>
         <Button
           variant="contained"
-          onClick={() => history.push('/manage/bikes')}
+          onClick={() => history.push('/home/manage/bikes')}
         >
           Gérer
         </Button>

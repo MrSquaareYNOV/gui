@@ -4,15 +4,19 @@ export class BikeRepository {
   private _bikes: BikeDTO[] = [
     {
       id: '0',
+      name: 'Bike 0',
     },
     {
       id: '1',
+      name: 'Bike 1',
     },
     {
       id: '2',
+      name: 'Bike 2',
     },
     {
       id: '3',
+      name: 'Bike 3',
     },
   ];
 

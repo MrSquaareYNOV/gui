@@ -39,7 +39,7 @@ export const BikeList: FC<Props> = ({ bikes, manage, onEdit, onDelete }) => {
                 {bike.id}
               </TableCell>
               <TableCell component="th" scope="row">
-                {''}
+                {bike.name}
               </TableCell>
               {manage ? (
                 <TableCell component="th" scope="row" align={'right'}>

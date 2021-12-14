@@ -24,7 +24,12 @@ export const BikeForm: FC<Props> = ({ bike, onSubmit }) => {
         </div>
       ) : null}
       <div className={styles.inputContainer}>
-        <TextField id="name" label="Name" variant="outlined" value={''} />
+        <TextField
+          id="name"
+          label="Name"
+          variant="outlined"
+          value={bike?.name || ''}
+        />
       </div>
       <div className={styles.buttonContainer}>
         <Button variant="contained" type="submit">

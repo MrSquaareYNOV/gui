@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { Route, useHistory } from 'react-router-dom';
 
 import styles from './Manage.module.scss';
-import { BikeRepository } from '../../../repositories/bike';
+import { BikeRepository } from '../../repositories/bike';
 
 export const Manage: FC = () => {
   const bikeRepository = new BikeRepository();
@@ -12,22 +12,38 @@ export const Manage: FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.buttonContainer}>
-        <Button variant="contained" sx={{ width: '100%' }} onClick={() => history.push('/home/manage/bikes')} >
+        <Button
+          variant="contained"
+          sx={{ width: '100%' }}
+          onClick={() => history.push('/manage/bikes')}
+        >
           Gérer les vélos
         </Button>
       </div>
       <div className={styles.buttonContainer}>
-        <Button variant="contained" sx={{ width: '100%' }} onClick={() => history.push('/home/manage/stations')} >
+        <Button
+          variant="contained"
+          sx={{ width: '100%' }}
+          onClick={() => history.push('/manage/stations')}
+        >
           Gérer les stations
         </Button>
       </div>
       <div className={styles.buttonContainer}>
-        <Button variant="contained" sx={{ width: '100%' }} onClick={() => history.push('/home/manage/parks')}>
+        <Button
+          variant="contained"
+          sx={{ width: '100%' }}
+          onClick={() => history.push('/manage/parks')}
+        >
           Gérer les parcs
         </Button>
       </div>
       <div className={styles.buttonContainer}>
-        <Button variant="contained" sx={{ width: '100%' }} onClick={() => history.push('/home/manage/users')}>
+        <Button
+          variant="contained"
+          sx={{ width: '100%' }}
+          onClick={() => history.push('/manage/users')}
+        >
           Gérer les utilisateurs
         </Button>
       </div>

@@ -1,30 +1,26 @@
-import { BikeDTO } from '../types/bike';
+import { BikeDTO } from '@gui-nx/types';
 
 export class BikeRepository {
   private _bikes: BikeDTO[] = [
     {
       id: '0',
-      name: 'Velo Test',
-      MES: 'Jan 2020',
     },
     {
       id: '1',
-      name: 'Velo Prod',
-      MES: 'Fev 2020',
     },
     {
       id: '2',
-      name: 'Velo PDG',
-      MES: 'Oct 2020',
     },
     {
       id: '3',
-      name: 'Velo Technique',
-      MES: 'Jui 2020',
     },
   ];
 
-  get bikes() {
+  async getBike(id: string): Promise<BikeDTO | undefined> {
+    return this._bikes.find((bike) => bike.id === id);
+  }
+
+  async getBikes(): Promise<BikeDTO[]> {
     return this._bikes;
   }
 }

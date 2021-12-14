@@ -1,4 +1,4 @@
-import { UserDTO } from '../types/user';
+import { UserDTO } from '@gui-nx/types';
 
 export class UserRepository {
   private _users: UserDTO[] = [
@@ -14,7 +14,11 @@ export class UserRepository {
     },
   ];
 
-  get users() {
+  getUser(id: string): UserDTO | undefined {
+    return this._users.find((user) => user.id === id);
+  }
+
+  getUsers(): UserDTO[] {
     return this._users;
   }
 }

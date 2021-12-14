@@ -3,7 +3,6 @@ import { FC } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { ParkList } from '../../parks/ParkList';
-import { BikeDTO } from '../../../types/bike';
 
 import styles from './Parks.module.scss';
 import { ParkRepository } from '../../../repositories/park';
@@ -16,8 +15,18 @@ export const ManageParks: FC = () => {
     <div className={styles.container}>
       <div className={styles.headerContainer}>
         <h1 className={styles.header}>Gestion des parks</h1>
+        <Button
+          variant="contained"
+          onClick={() => history.push('/manage/parks/add')}
+        >
+          Ajouter
+        </Button>
       </div>
-      <ParkList parks={parksRepository.parks} />
+      <ParkList
+        parks={parksRepository.getParks()}
+        manage={true}
+        onEdit={(park) => history.push(`/manage/parks/edit/${park.id}`)}
+      />
     </div>
   );
 };

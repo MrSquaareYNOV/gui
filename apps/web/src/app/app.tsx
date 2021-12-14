@@ -8,10 +8,10 @@ import { Login } from './pages/Login';
 export function App() {
   return (
     <>
-      <Route exact path="/">
+      <Route exact path="/login">
         <Login />
       </Route>
-      <Route path="/home">
+      <Route path="/">
         <Home />
       </Route>
     </>

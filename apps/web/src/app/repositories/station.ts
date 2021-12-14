@@ -1,4 +1,4 @@
-import { StationDTO } from '../types/station';
+import { StationDTO } from '@gui-nx/types';
 
 export class StationRepository {
   private _stations: StationDTO[] = [
@@ -18,7 +18,11 @@ export class StationRepository {
     },
   ];
 
-  get stations() {
+  getStation(id: string): StationDTO | undefined {
+    return this._stations.find((station) => station.id === id);
+  }
+
+  getStations(): StationDTO[] {
     return this._stations;
   }
 }

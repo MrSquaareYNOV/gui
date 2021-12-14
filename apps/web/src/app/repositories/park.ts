@@ -1,4 +1,4 @@
-import { ParkDTO } from '../types/park';
+import { ParkDTO } from '@gui-nx/types';
 
 export class ParkRepository {
   private _parks: ParkDTO[] = [
@@ -16,7 +16,11 @@ export class ParkRepository {
     },
   ];
 
-  get parks() {
+  getPark(id: string): ParkDTO | undefined {
+    return this._parks.find((park) => park.id === id);
+  }
+
+  getParks(): ParkDTO[] {
     return this._parks;
   }
 }

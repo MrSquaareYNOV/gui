@@ -3,18 +3,22 @@ import { FC } from 'react';
 import { Route, useHistory } from 'react-router-dom';
 
 import styles from './Home.module.scss';
-import { Find } from '../components/home/find/Find';
-import { List } from '../components/home/list/List';
-import { Manage } from '../components/home/manage/Manage';
-import { Bikes } from '../components/home/list/Bikes';
-import { Stations } from '../components/home/list/Stations';
-import { Parks } from '../components/home/list/Parks';
-import { Users } from '../components/home/list/Users';
-import { ManageBikes } from '../components/home/manage/Bikes';
-import { ManageStations } from '../components/home/manage/Stations';
-import { ManageParks } from '../components/home/manage/Parks';
-import { ManageUsers } from '../components/home/manage/Users';
-
+import { Find } from '../components/find/Find';
+import { List } from '../components/list/List';
+import { Manage } from '../components/manage/Manage';
+import { Bikes } from '../components/list/bikes/Bikes';
+import { Stations } from '../components/list/stations/Stations';
+import { Parks } from '../components/list/parks/Parks';
+import { Users } from '../components/list/users/Users';
+import { ManageBikes } from '../components/manage/bikes/Bikes';
+import { ManageStations } from '../components/manage/stations/Stations';
+import { ManageParks } from '../components/manage/parks/Parks';
+import { ManageUsers } from '../components/manage/users/Users';
+import { ParkForm } from '../components/parks/ParkForm';
+import { ManagePark } from '../components/manage/parks/Park';
+import { ManageBike } from '../components/manage/bikes/Bike';
+import { ManageStation } from '../components/manage/stations/Station';
+import { ManageUser } from '../components/manage/users/User';
 
 export const Home: FC = () => {
   const history = useHistory();
@@ -36,7 +40,7 @@ export const Home: FC = () => {
             <Button
               variant="contained"
               sx={{ width: '100%' }}
-              onClick={() => history.push('/home')}
+              onClick={() => history.push('/list')}
             >
               Liste
             </Button>
@@ -45,7 +49,7 @@ export const Home: FC = () => {
             <Button
               variant="contained"
               sx={{ width: '100%' }}
-              onClick={() => history.push('/home/manage')}
+              onClick={() => history.push('/manage')}
             >
               Gérer
             </Button>
@@ -54,7 +58,7 @@ export const Home: FC = () => {
             <Button
               variant="contained"
               sx={{ width: '100%' }}
-              onClick={() => history.push('/home/find')}
+              onClick={() => history.push('/find')}
             >
               Trouver
             </Button>
@@ -62,48 +66,70 @@ export const Home: FC = () => {
         </div>
       </div>
 
-
-      { /* Route HOME */}
-
       <div className={styles.main}>
-        <Route exact path="/home">
-          <List />
-        </Route>
+        {/* Route HOME */}
 
         {/* Route LIST */}
-        <Route exact path="/home/bikes">
+        <Route exact path="/list">
+          <List />
+        </Route>
+        <Route exact path="/list/bikes">
           <Bikes />
         </Route>
-        <Route exact path="/home/stations">
+        <Route exact path="/list/stations">
           <Stations />
         </Route>
-        <Route exact path="/home/parks">
+        <Route exact path="/list/parks">
           <Parks />
         </Route>
-        <Route exact path="/home/users">
+        <Route exact path="/list/users">
           <Users />
-        </Route>
-        <Route exact path="/home/manage">
-          <Manage />
-        </Route>
-
-        {/* Route FIND */}
-        <Route exact path="/home/find">
-          <Find />
         </Route>
 
         {/* Route MANAGE */}
-        <Route exact path="/home/manage/bikes">
+        <Route exact path="/manage">
+          <Manage />
+        </Route>
+        <Route exact path="/manage/bikes">
           <ManageBikes />
         </Route>
-        <Route exact path="/home/manage/stations">
+        <Route exact path="/manage/bikes/add">
+          <ManageBike />
+        </Route>
+        <Route exact path="/manage/bikes/edit/:id">
+          <ManageBike />
+        </Route>
+        <Route exact path="/manage/stations">
           <ManageStations />
         </Route>
-        <Route exact path="/home/manage/parks">
+        <Route exact path="/manage/stations/add">
+          <ManageStation />
+        </Route>
+        <Route exact path="/manage/stations/edit/:id">
+          <ManageStation />
+        </Route>
+        <Route exact path="/manage/parks">
           <ManageParks />
         </Route>
-        <Route exact path="/home/manage/users">
+        <Route exact path="/manage/parks/add">
+          <ManagePark />
+        </Route>
+        <Route exact path="/manage/parks/edit/:id">
+          <ManagePark />
+        </Route>
+        <Route exact path="/manage/users">
           <ManageUsers />
+        </Route>
+        <Route exact path="/manage/users/add">
+          <ManageUser />
+        </Route>
+        <Route exact path="/manage/users/edit/:id">
+          <ManageUser />
+        </Route>
+
+        {/* Route FIND */}
+        <Route exact path="/find">
+          <Find />
         </Route>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import {
+  IconButton,
   Paper,
   Table,
   TableBody,
@@ -8,24 +9,35 @@ import {
   TableRow,
 } from '@mui/material';
 import { FC } from 'react';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
-import { StationDTO } from '../../types/station';
+import { StationDTO } from '@gui-nx/types';
 
 type Props = {
   stations: StationDTO[];
+  manage?: boolean;
+  onEdit?: (station: StationDTO) => void;
+  onDelete?: (station: StationDTO) => void;
 };
 
-export const StationList: FC<Props> = ({ stations }) => {
+export const StationList: FC<Props> = ({
+  stations,
+  manage,
+  onEdit,
+  onDelete,
+}) => {
   return (
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
             <TableCell>UUID</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Location</TableCell>
-            <TableCell>Current bikes</TableCell>
-            <TableCell>Total bikes</TableCell>
+            <TableCell>Nom</TableCell>
+            <TableCell>Localisation</TableCell>
+            <TableCell>Vélos actuels</TableCell>
+            <TableCell>Vélos total</TableCell>
+            {manage ? <TableCell align={'right'}>Actions</TableCell> : null}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -46,6 +58,16 @@ export const StationList: FC<Props> = ({ stations }) => {
               <TableCell component="th" scope="row">
                 {station.totalBikes}
               </TableCell>
+              {manage ? (
+                <TableCell component="th" scope="row" align={'right'}>
+                  <IconButton onClick={() => onEdit && onEdit(station)}>
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton onClick={() => onDelete && onDelete(station)}>
+                    <DeleteIcon />
+                  </IconButton>
+                </TableCell>
+              ) : null}
             </TableRow>
           ))}
         </TableBody>

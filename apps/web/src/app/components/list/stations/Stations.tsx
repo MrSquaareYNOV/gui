@@ -3,7 +3,6 @@ import { FC } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { StationList } from '../../stations/StationList';
-import { StationDTO } from '../../../types/station';
 
 import styles from './Stations.module.scss';
 import { StationRepository } from '../../../repositories/station';
@@ -18,12 +17,12 @@ export const Stations: FC = () => {
         <h1 className={styles.header}>Liste des stations</h1>
         <Button
           variant="contained"
-          onClick={() => history.push('/home/manage/stations')}
+          onClick={() => history.push('/manage/stations')}
         >
           Gérer
         </Button>
       </div>
-      <StationList stations={stationRepository.stations} />
+      <StationList stations={stationRepository.getStations()} />
     </div>
   );
 };

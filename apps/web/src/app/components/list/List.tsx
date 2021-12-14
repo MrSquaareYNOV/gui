@@ -13,7 +13,7 @@ export const List: FC = () => {
         <Button
           variant="contained"
           sx={{ width: '100%' }}
-          onClick={() => history.push('/home/bikes')}
+          onClick={() => history.push('/list/bikes')}
         >
           Liste des vélos
         </Button>
@@ -22,7 +22,7 @@ export const List: FC = () => {
         <Button
           variant="contained"
           sx={{ width: '100%' }}
-          onClick={() => history.push('/home/stations')}
+          onClick={() => history.push('/list/stations')}
         >
           Liste des stations
         </Button>
@@ -31,7 +31,7 @@ export const List: FC = () => {
         <Button
           variant="contained"
           sx={{ width: '100%' }}
-          onClick={() => history.push('/home/parks')}
+          onClick={() => history.push('/list/parks')}
         >
           Liste des parcs
         </Button>
@@ -40,7 +40,7 @@ export const List: FC = () => {
         <Button
           variant="contained"
           sx={{ width: '100%' }}
-          onClick={() => history.push('/home/users')}
+          onClick={() => history.push('/list/users')}
         >
           Liste des utilisateurs
         </Button>

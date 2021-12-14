@@ -3,10 +3,8 @@ import { FC } from 'react';
 import { Route, useHistory } from 'react-router-dom';
 
 import styles from './Manage.module.scss';
-import { BikeRepository } from '../../repositories/bike';
 
 export const Manage: FC = () => {
-  const bikeRepository = new BikeRepository();
   const history = useHistory();
 
   return (

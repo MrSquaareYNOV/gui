@@ -1,15 +1,75 @@
-import { Button } from '@mui/material';
-import { FC } from 'react';
+import { Alert, AlertTitle, Button, LinearProgress } from '@mui/material';
+import { FC, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { BikeList } from '../../bikes/BikeList';
 
 import styles from './Bikes.module.scss';
 import { BikeRepository } from '../../../repositories/bike';
+import { BikeDTO, Errors } from '@gui-nx/types';
 
 export const ManageBikes: FC = () => {
-  const bikeRepository = new BikeRepository();
+  const bikeRepository = BikeRepository.get();
   const history = useHistory();
+
+  const [bikes, setBikes] = useState<BikeDTO[]>();
+  const [errors, setErrors] = useState<Errors>();
+
+  const getBikes = async () => {
+    try {
+      const bikes = await bikeRepository.getBikes();
+
+      setBikes(bikes);
+      setErrors(undefined);
+    } catch (e) {
+      if (e instanceof Errors) {
+        setErrors(e);
+      } else {
+        console.error(e);
+      }
+    }
+  };
+
+  const deleteBike = async (id: string) => {
+    try {
+      await bikeRepository.deleteBike(id);
+
+      setErrors(undefined);
+
+      await getBikes();
+    } catch (e) {
+      if (e instanceof Errors) {
+        setErrors(e);
+      } else {
+        console.error(e);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getBikes();
+  }, []);
+
+  if (errors) {
+    return (
+      <div className={styles.container}>
+        {errors.list.map((error, idx) => (
+          <Alert key={idx} severity="error">
+            <AlertTitle>{error.code}</AlertTitle>
+            {error.message}
+          </Alert>
+        ))}
+      </div>
+    );
+  }
+
+  if (!bikes) {
+    return (
+      <div className={styles.container}>
+        <LinearProgress />
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
@@ -23,9 +83,10 @@ export const ManageBikes: FC = () => {
         </Button>
       </div>
       <BikeList
-        bikes={bikeRepository.getBikes()}
+        bikes={bikes}
         manage={true}
         onEdit={(bike) => history.push(`/manage/bikes/edit/${bike.id}`)}
+        onDelete={(bike) => deleteBike(bike.id)}
       />
     </div>
   );

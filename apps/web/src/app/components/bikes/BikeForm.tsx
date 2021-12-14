@@ -1,15 +1,16 @@
 import { BikeDTO } from '@gui-nx/types';
 import { Button, TextField } from '@mui/material';
-import { FC, FormEventHandler } from 'react';
+import { ChangeEventHandler, FC, FormEventHandler } from 'react';
 
 import styles from './BikeForm.module.scss';
 
 type Props = {
   bike?: BikeDTO;
-  onSubmit?: FormEventHandler;
+  onChange?: ChangeEventHandler;
+  onSubmit?: FormEventHandler<HTMLFormElement>;
 };
 
-export const BikeForm: FC<Props> = ({ bike, onSubmit }) => {
+export const BikeForm: FC<Props> = ({ bike, onChange, onSubmit }) => {
   return (
     <form className={styles.container} onSubmit={onSubmit}>
       {bike ? (
@@ -19,6 +20,7 @@ export const BikeForm: FC<Props> = ({ bike, onSubmit }) => {
             label="ID"
             variant="outlined"
             value={bike?.id || ''}
+            onChange={onChange}
             disabled
           />
         </div>
@@ -29,6 +31,7 @@ export const BikeForm: FC<Props> = ({ bike, onSubmit }) => {
           label="Name"
           variant="outlined"
           value={bike?.name || ''}
+          onChange={onChange}
         />
       </div>
       <div className={styles.buttonContainer}>

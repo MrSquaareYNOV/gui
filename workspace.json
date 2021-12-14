@@ -4,6 +4,7 @@
     "mobile": "apps/mobile",
     "mobile-e2e": "apps/mobile-e2e",
     "server": "apps/server",
+    "types": "libs/types",
     "web": "apps/web",
     "web-e2e": "apps/web-e2e"
   }

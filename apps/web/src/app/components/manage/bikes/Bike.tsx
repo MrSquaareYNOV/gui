@@ -5,7 +5,7 @@ import { BikeForm } from '../../bikes/BikeForm';
 
 import styles from './Bike.module.scss';
 import { BikeRepository } from '../../../repositories/bike';
-import { BikeDTO, Errors } from '@gui-nx/types';
+import { BikeDTO, Errors, Error } from '@gui-nx/types';
 import { Alert, AlertTitle, LinearProgress } from '@mui/material';
 import { Formik } from 'formik';
 
@@ -20,6 +20,17 @@ export const ManageBike: FC = () => {
 
   const [bike, setBike] = useState<BikeDTO>();
   const [errors, setErrors] = useState<Errors>();
+
+  const globalErrors = errors?.list.filter(
+    (err) => !err.code.startsWith('INVALID_FIELD')
+  );
+  const fieldErrors = errors?.list.filter((err) =>
+    err.code.startsWith('INVALID_FIELD')
+  );
+  const formErrors = {
+    name:
+      fieldErrors?.filter((error) => error.code === 'INVALID_FIELD_NAME') || [],
+  };
 
   const getBike = async (id: string) => {
     try {
@@ -82,19 +93,6 @@ export const ManageBike: FC = () => {
     }
   }, [id]);
 
-  if (errors) {
-    return (
-      <div className={styles.container}>
-        {errors.list.map((error, idx) => (
-          <Alert key={idx} severity="error">
-            <AlertTitle>{error.code}</AlertTitle>
-            {error.message}
-          </Alert>
-        ))}
-      </div>
-    );
-  }
-
   if (id && !bike) {
     return (
       <div className={styles.container}>
@@ -108,6 +106,16 @@ export const ManageBike: FC = () => {
       <div className={styles.headerContainer}>
         <h1 className={styles.header}>{bike ? 'Éditer' : 'Ajouter'} un vélo</h1>
       </div>
+      {globalErrors ? (
+        <div className={styles.container}>
+          {globalErrors.map((error, idx) => (
+            <Alert key={idx} severity="error">
+              <AlertTitle>{error.code}</AlertTitle>
+              {error.message}
+            </Alert>
+          ))}
+        </div>
+      ) : null}
       <Formik
         initialValues={
           bike || {
@@ -122,6 +130,7 @@ export const ManageBike: FC = () => {
           return (
             <BikeForm
               bike={values}
+              errors={formErrors}
               onChange={handleChange}
               onSubmit={handleSubmit}
             />

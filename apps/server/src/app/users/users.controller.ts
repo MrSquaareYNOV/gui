@@ -1,11 +1,5 @@
-import {
-  APIStation,
-  APIStations,
-  APIErrors,
-  StationDTO,
-  Errors,
-} from '@gui-nx/types';
-import { StationDTOValidation } from '@gui-nx/validations';
+import { APIUser, APIUsers, APIErrors, UserDTO, Errors } from '@gui-nx/types';
+import { UserDTOValidation } from '@gui-nx/validations';
 import {
   Body,
   Controller,
@@ -18,18 +12,18 @@ import {
 } from '@nestjs/common';
 import { InternalError } from '../constants/errors';
 import { validationPipeExceptionFormatter } from '../exceptions/formatter';
-import { StationsService } from './stations.service';
+import { UsersService } from './users.service';
 
-@Controller('stations')
-export class StationsController {
-  constructor(private readonly stationsService: StationsService) {}
+@Controller('users')
+export class UsersController {
+  constructor(private readonly usersService: UsersService) {}
 
   @Get()
-  findAll(): APIStations | APIErrors {
+  findAll(): APIUsers | APIErrors {
     try {
-      const stations = this.stationsService.findAll();
+      const users = this.usersService.findAll();
 
-      return { stations };
+      return { users };
     } catch (e) {
       if (e instanceof Errors) {
         return { errors: e.list };
@@ -42,11 +36,11 @@ export class StationsController {
   }
 
   @Get('/:id')
-  find(@Param('id') id: string): APIStation | APIErrors {
+  find(@Param('id') id: string): APIUser | APIErrors {
     try {
-      const station = this.stationsService.find(id);
+      const user = this.usersService.find(id);
 
-      return { station };
+      return { user };
     } catch (e) {
       if (e instanceof Errors) {
         return { errors: e.list };
@@ -59,18 +53,16 @@ export class StationsController {
   }
 
   @Post()
-  createStation(
+  createUser(
     @Body(
       new ValidationPipe({ exceptionFactory: validationPipeExceptionFormatter })
     )
-    body: StationDTOValidation
-  ): APIStation | APIErrors {
+    body: UserDTOValidation
+  ): APIUser | APIErrors {
     try {
-      const station = this.stationsService.createStation(
-        body as Omit<StationDTO, 'id'>
-      );
+      const user = this.usersService.createUser(body as Omit<UserDTO, 'id'>);
 
-      return { station };
+      return { user };
     } catch (e) {
       if (e instanceof Errors) {
         return { errors: e.list };
@@ -83,7 +75,7 @@ export class StationsController {
   }
 
   @Patch('/:id')
-  updateStation(
+  updateUser(
     @Param('id') id: string,
     @Body(
       new ValidationPipe({
@@ -91,15 +83,15 @@ export class StationsController {
         skipMissingProperties: true,
       })
     )
-    body: StationDTOValidation
-  ): APIStation | APIErrors {
+    body: UserDTOValidation
+  ): APIUser | APIErrors {
     try {
-      const station = this.stationsService.updateStation(
+      const user = this.usersService.updateUser(
         id,
-        body as Partial<Omit<StationDTO, 'id'>>
+        body as Partial<Omit<UserDTO, 'id'>>
       );
 
-      return { station };
+      return { user };
     } catch (e) {
       if (e instanceof Errors) {
         return { errors: e.list };
@@ -112,9 +104,9 @@ export class StationsController {
   }
 
   @Delete('/:id')
-  deleteStation(@Param('id') id: string): any | APIErrors {
+  deleteUser(@Param('id') id: string): any | APIErrors {
     try {
-      this.stationsService.deleteStation(id);
+      this.usersService.deleteUser(id);
 
       return {};
     } catch (e) {

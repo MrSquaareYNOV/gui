@@ -1,7 +1,7 @@
-import { BikeDTO, Errors } from '@gui-nx/types';
-import axios, { AxiosError } from 'axios';
+import { BikeDTO } from '@gui-nx/types';
+import axios from 'axios';
 import { API_BASE_URL } from '../constants/api';
-import { API_ERROR } from '../constants/errors';
+import { getError } from '../utilities/errors';
 
 export class BikeRepository {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -21,16 +21,8 @@ export class BikeRepository {
       const response = await axios.get(`${API_BASE_URL}/bikes`);
 
       return response.data.bikes;
-    } catch (e: any | AxiosError) {
-      const data = e.response?.data;
-
-      if (axios.isAxiosError(e) && data) {
-        throw new Errors(data.errors);
-      }
-
-      console.error(e);
-
-      throw API_ERROR;
+    } catch (e) {
+      throw getError(e);
     }
   }
 
@@ -39,16 +31,8 @@ export class BikeRepository {
       const response = await axios.get(`${API_BASE_URL}/bikes/${id}`);
 
       return response.data.bike;
-    } catch (e: any | AxiosError) {
-      const data = e.response?.data;
-
-      if (axios.isAxiosError(e) && data) {
-        throw new Errors(data.errors);
-      }
-
-      console.error(e);
-
-      throw API_ERROR;
+    } catch (e) {
+      throw getError(e);
     }
   }
 
@@ -57,16 +41,8 @@ export class BikeRepository {
       const response = await axios.post(`${API_BASE_URL}/bikes`, bike);
 
       return response.data.bike;
-    } catch (e: any | AxiosError) {
-      const data = e.response?.data;
-
-      if (axios.isAxiosError(e) && data) {
-        throw new Errors(data.errors);
-      }
-
-      console.error(e);
-
-      throw API_ERROR;
+    } catch (e) {
+      throw getError(e);
     }
   }
 
@@ -78,16 +54,8 @@ export class BikeRepository {
       const response = await axios.patch(`${API_BASE_URL}/bikes/${id}`, bike);
 
       return response.data.bike;
-    } catch (e: any | AxiosError) {
-      const data = e.response?.data;
-
-      if (axios.isAxiosError(e) && data) {
-        throw new Errors(data.errors);
-      }
-
-      console.error(e);
-
-      throw API_ERROR;
+    } catch (e) {
+      throw getError(e);
     }
   }
 
@@ -96,16 +64,8 @@ export class BikeRepository {
       await axios.delete(`${API_BASE_URL}/bikes/${id}`);
 
       return true;
-    } catch (e: any | AxiosError) {
-      const data = e.response?.data;
-
-      if (axios.isAxiosError(e) && data) {
-        throw new Errors(data.errors);
-      }
-
-      console.error(e);
-
-      throw API_ERROR;
+    } catch (e) {
+      throw getError(e);
     }
   }
 }

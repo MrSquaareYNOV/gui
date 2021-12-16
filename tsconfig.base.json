@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@gui-nx/schema": ["libs/schema/src/index.ts"],
       "@gui-nx/types": ["libs/types/src/index.ts"],
       "@gui-nx/validations": ["libs/validations/src/index.ts"]
     }

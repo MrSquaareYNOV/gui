@@ -40,7 +40,8 @@
       "executor": "@nrwl/web:dev-server",
       "options": {
         "buildTarget": "mobile:build",
-        "hmr": true
+        "hmr": true,
+        "proxyConfig": "./apps/web/proxy.conf.json"
       },
       "configurations": {
         "production": {

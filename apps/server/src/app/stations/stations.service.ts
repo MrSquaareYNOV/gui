@@ -4,7 +4,15 @@ import { v4 } from 'uuid';
 
 @Injectable()
 export class StationsService {
-  private _stations: StationDTO[] = [];
+  private _stations: StationDTO[] = [
+    {
+      id: "21323",
+      name: "lastation",
+      location: "43.604652,1.444209",
+      currentBikesIds: ["43652", "14209"],
+      totalBikes: 2
+    }
+  ];
 
   findAll(): StationDTO[] {
     return this._stations;

@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { ParkList } from '../../parks/ParkList';
 
 import styles from './Parks.module.scss';
-import { ParkRepository } from '../../../repositories/park';
+import { ParkRepository } from '@gui-nx/repositories';
 import { Errors, ParkDTO } from '@gui-nx/types';
 
 export const Parks: FC = () => {

@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { StationList } from '../../stations/StationList';
 
 import styles from './Stations.module.scss';
-import { StationRepository } from '../../../repositories/station';
+import { StationRepository } from '@gui-nx/repositories';
 import { Errors, StationDTO } from '@gui-nx/types';
 
 export const Stations: FC = () => {

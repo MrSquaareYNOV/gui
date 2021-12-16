@@ -18,7 +18,7 @@ export class BikesService {
 
   async find(id: string): Promise<Bike | undefined> {
 
-    const bike = await this.bikeModel.findById(id).exec();
+    const bike = (await this.bikeModel.find({ id }).exec())[0];
 
     if (!bike) {
       throw new Errors([{ code: 'BIKE_NOT_FOUND', message: 'Bike not found' }]);
@@ -36,11 +36,11 @@ export class BikesService {
     id: string,
     bike: Partial<Omit<BikeDTO, 'id'>>
   ): Promise<Bike | undefined> {
-    return await this.bikeModel.findByIdAndUpdate(id, bike).exec();
+    return await this.bikeModel.findOneAndUpdate({ id }, bike).exec();
   }
 
   async deleteBike(id: string): Promise<void> {
-    await this.bikeModel.findByIdAndDelete(id).exec();
+    await this.bikeModel.findOneAndDelete({ id }).exec();
     /*
     const bikeIdx = this._bikes.findIndex((item) => item.id === id);
 

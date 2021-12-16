@@ -15,7 +15,7 @@ export class ParksService {
   }
 
   async find(id: string): Promise<Park | undefined> {
-    const park = await this.parkModel.findById(id).exec();
+    const park = (await this.parkModel.find({ id }).exec())[0];
 
     if (!park) {
       throw new Errors([{ code: 'PARK_NOT_FOUND', message: 'Park not found' }]);
@@ -38,10 +38,10 @@ export class ParksService {
       throw new Errors([{ code: 'USER_NOT_FOUND', message: 'User not found' }]);
     }
      */
-    return await this.parkModel.findByIdAndUpdate(id, park).exec();
+    return await this.parkModel.findOneAndUpdate({ id }, park).exec();
   }
 
   async deletePark(id: string): Promise<void> {
-    await this.parkModel.findByIdAndDelete(id).exec();
+    await this.parkModel.findOneAndDelete({ id }).exec();
   }
 }

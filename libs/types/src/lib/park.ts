@@ -1,5 +1,5 @@
 export type ParkDTO = {
-  id: string;
+  _id: string;
   name: string;
   location: string;
   stationsIds: string[];

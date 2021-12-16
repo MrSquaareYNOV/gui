@@ -56,7 +56,7 @@ export class UsersService implements OnModuleInit {
 
     const createdPark = await new this.userModel({ ...user,id:v4() });
     createdPark.save();
-    const { password, ...userWithoutPassword } = await createdPark.save();
+    const { password, ...userWithoutPassword } = createdPark;
 
     return userWithoutPassword;
   }

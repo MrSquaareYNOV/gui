@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">GUI</string>
+    <string name="title_activity_main">GUI</string>
+    <string name="package_name">fr.gui</string>
+    <string name="custom_url_scheme">fr.gui</string>
+</resources>

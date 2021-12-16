@@ -1,0 +1,21 @@
+title: Park
+type: object
+properties:
+  id:
+    type: string
+    format: uuid
+  name:
+    type: string
+  location:
+    type: string
+    pattern: '\d{1,3}\.\d{1,9},\d{1,3}\.\d{1,9}'
+  stationsIds:
+    type: array
+    items:
+      type: string
+      format: uuid
+required:
+  - id
+  - name
+  - location
+  - stationsIds

@@ -9,8 +9,6 @@ import { v4 } from 'uuid';
 export class BikesService {
   constructor(@InjectModel(Bike.name) private bikeModel: Model<BikeDocument>) {}
 
-  //private _bikes: BikeDTO[] = [];
-
   async findAll(): Promise<Bike[]> {
     return await this.bikeModel.find().exec();
   }
@@ -26,8 +24,7 @@ export class BikesService {
   }
 
   async createBike(bike: Omit<BikeDTO, 'id'>): Promise<Bike> {
-    const createdBike = await new this.bikeModel({ ...bike, id: v4() });
-    return createdBike.save();
+    return await new this.bikeModel({ ...bike, id: v4() }).save();
   }
 
   async updateBike(

@@ -9,8 +9,6 @@ import { v4 } from 'uuid';
 export class UsersService implements OnModuleInit {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  //  private _users: UserDTO[] = [];
-
   onModuleInit() {
     this.createUser({
       email: 'admin',

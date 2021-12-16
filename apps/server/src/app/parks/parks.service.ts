@@ -1,5 +1,5 @@
 import { Park, ParkDocument } from '@gui-nx/schema';
-import { Errors,ParkDTO } from '@gui-nx/types';
+import { Errors, ParkDTO } from '@gui-nx/types';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -24,19 +24,13 @@ export class ParksService {
   }
 
   async createPark(park: Omit<ParkDTO, 'id'>): Promise<Park> {
-    const createdPark = await new this.parkModel({ ...park, id: v4() });
-    return createdPark.save();
+    return await new this.parkModel({ ...park, id: v4() }).save();
   }
 
   async updatePark(
     id: string,
     park: Partial<Omit<ParkDTO, 'id'>>
   ): Promise<Park | undefined> {
-    /*
-       if (userIdx === -1) {
-      throw new Errors([{ code: 'USER_NOT_FOUND', message: 'User not found' }]);
-    }
-     */
     return await this.parkModel.findOneAndUpdate({ id }, park).exec();
   }
 

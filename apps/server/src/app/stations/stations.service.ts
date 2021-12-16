@@ -1,5 +1,5 @@
 import { Station, StationDocument } from '@gui-nx/schema';
-import { Errors,StationDTO } from '@gui-nx/types';
+import { Errors, StationDTO } from '@gui-nx/types';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -10,8 +10,6 @@ export class StationsService {
   constructor(
     @InjectModel(Station.name) private stationModel: Model<StationDocument>
   ) {}
-
-  //private _stations: StationDTO[] = [];
 
   async findAll(): Promise<Station[]> {
     return await this.stationModel.find().exec();
@@ -30,11 +28,10 @@ export class StationsService {
   }
 
   async createStation(station: Omit<StationDTO, 'id'>): Promise<Station> {
-    const createdStation = await new this.stationModel({
+    return await new this.stationModel({
       ...station,
       id: v4(),
-    });
-    return createdStation.save();
+    }).save();
   }
 
   async updateStation(

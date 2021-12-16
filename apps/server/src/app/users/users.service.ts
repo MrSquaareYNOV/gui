@@ -7,7 +7,11 @@ export class UsersService {
   private _users: UserDTO[] = [];
 
   findAll(): UserDTO[] {
-    return this._users;
+    return this._users.map((user) => {
+      const { password, ...userWithoutPassword } = user;
+
+      return userWithoutPassword;
+    });
   }
 
   find(id: string): UserDTO | undefined {
@@ -17,7 +21,9 @@ export class UsersService {
       throw new Errors([{ code: 'USER_NOT_FOUND', message: 'User not found' }]);
     }
 
-    return { ...user };
+    const { password, ...userWithoutPassword } = user;
+
+    return userWithoutPassword;
   }
 
   createUser(user: Omit<UserDTO, 'id'>): UserDTO {
@@ -28,7 +34,9 @@ export class UsersService {
 
     this._users.push(newUser);
 
-    return newUser;
+    const { password, ...userWithoutPassword } = newUser;
+
+    return userWithoutPassword;
   }
 
   updateUser(
@@ -49,7 +57,9 @@ export class UsersService {
 
     this._users.splice(userIdx, 1, editedUser);
 
-    return editedUser;
+    const { password, ...userWithoutPassword } = editedUser;
+
+    return userWithoutPassword;
   }
 
   deleteUser(id: string): void {

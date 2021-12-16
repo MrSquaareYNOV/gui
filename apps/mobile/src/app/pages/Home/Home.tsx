@@ -1,9 +1,12 @@
-import { LatLngExpression } from 'leaflet';
-import React, { FunctionComponent } from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import {LatLngExpression} from 'leaflet';
+import React, {FunctionComponent} from 'react';
+import {MapContainer, TileLayer} from 'react-leaflet';
 
 import logo from '../../../assets/logo.png';
+
 import styles from './Home.module.scss';
+import {Button} from "@mui/material";
+import Nav, {Page} from "../../components/Nav/Nav";
 
 interface OwnProps {}
 
@@ -25,28 +28,17 @@ const Home: FunctionComponent<Props> = (props) => {
       <div className={styles.map}>
         <MapContainer center={position} zoom={13} scrollWheelZoom={false}>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-          <Marker position={position}>
-            <Popup>
-              A pretty CSS3 popup. <br /> Easily customizable.
-            </Popup>
-          </Marker>
+          {/*<Marker position={position}>*/}
+          {/*  <Popup>*/}
+          {/*    A pretty CSS3 popup. <br /> Easily customizable.*/}
+          {/*  </Popup>*/}
+          {/*</Marker>*/}
         </MapContainer>
       </div>
 
-      <nav className={styles.nav}>
-        <ul>
-          <li>
-            Map<div className={styles.separator}></div>
-          </li>
-          <li>
-            Blank<div className={styles.separator}></div>
-          </li>
-          <li>
-            Blank<div className={styles.separator}></div>
-          </li>
-          <li>Settings</li>
-        </ul>
-      </nav>
+      <div className={styles.cta}><Button variant="contained">ME TROUVER UN BIKE</Button></div>
+
+      <Nav selected={Page.map} />
     </div>
   );
 };

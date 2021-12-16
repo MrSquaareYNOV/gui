@@ -23,12 +23,6 @@ import { ManageUser } from '../components/manage/users/User';
 export const Home: FC = () => {
   const history = useHistory();
 
-  useEffect(() => {
-    if (!localStorage.getItem('token')) {
-      history.push('/login');
-    }
-  }, [history]);
-
   return (
     <div className={styles.container}>
       <div className={styles.sidebar}>

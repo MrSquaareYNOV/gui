@@ -14,6 +14,8 @@ export class Station {
   currentBikesIds: string[];
   @Prop()
   totalBikes: number;
+  @Prop({ required: true })
+  id: string;
 }
 
 export const StationSchema = SchemaFactory.createForClass(Station);

@@ -25,7 +25,7 @@ export class ParksService {
   }
 
   async createPark(park: Omit<ParkDTO, 'id'>): Promise<Park> {
-    const createdPark = await new this.parkModel(park);
+    const createdPark = await new this.parkModel({ park, id: v4() });
     return createdPark.save();
   }
 

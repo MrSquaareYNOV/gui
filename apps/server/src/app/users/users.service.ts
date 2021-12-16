@@ -54,7 +54,7 @@ export class UsersService implements OnModuleInit {
 
   async createUser(user: Omit<UserDTO, 'id'>): Promise<User> {
 
-    const createdPark = await new this.userModel(user);
+    const createdPark = await new this.userModel({ ...user,id:v4() });
     createdPark.save();
     const { password, ...userWithoutPassword } = await createdPark.save();
 

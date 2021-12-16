@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Bike, BikeDocument } from '@gui-nx/schema';
 import { Model } from 'mongoose';
+import { v4 } from 'uuid';
 
 @Injectable()
 export class BikesService {
@@ -27,7 +28,7 @@ export class BikesService {
   }
 
   async createBike(bike: Omit<BikeDTO, 'id'>): Promise<Bike> {
-    const createdBike = await new this.bikeModel(bike);
+    const createdBike = await new this.bikeModel({ ...bike, id: v4() });
     return createdBike.save();
   }
 

@@ -14,6 +14,8 @@ export class Park {
   stationsIds: string[];
   @Prop()
   totalBikes: number;
+  @Prop({ required: true })
+  id: string;
 }
 
 export const ParkSchema = SchemaFactory.createForClass(Park);

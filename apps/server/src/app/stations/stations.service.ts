@@ -29,7 +29,7 @@ export class StationsService {
   }
 
   async createStation(station: Omit<StationDTO, 'id'>): Promise<Station> {
-    const createdStation = await new this.stationModel(station);
+    const createdStation = await new this.stationModel({ station, id: v4() });
     return createdStation.save();
   }
 

@@ -4,6 +4,7 @@
     "mobile": "apps/mobile",
     "mobile-e2e": "apps/mobile-e2e",
     "repositories": "libs/repositories",
+    "schema": "libs/schema",
     "server": "apps/server",
     "types": "libs/types",
     "validations": "libs/validations",

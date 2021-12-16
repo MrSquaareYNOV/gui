@@ -1,5 +1,5 @@
-import { UserDTO } from '@gui-nx/types';
-import { IsString, MinLength } from 'class-validator';
+import { UserDTO, UserPermission } from '@gui-nx/types';
+import { IsNumber, IsString, MinLength } from 'class-validator';
 
 export class UserDTOValidation implements Partial<Omit<UserDTO, 'id'>> {
   @IsString()
@@ -8,4 +8,6 @@ export class UserDTOValidation implements Partial<Omit<UserDTO, 'id'>> {
   @IsString()
   @MinLength(1)
   password?: string;
+  @IsNumber()
+  permission?: UserPermission;
 }

@@ -1,5 +1,5 @@
 import { Avatar, Button } from '@mui/material';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { Route, useHistory } from 'react-router-dom';
 
 import styles from './Home.module.scss';

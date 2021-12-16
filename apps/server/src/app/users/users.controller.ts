@@ -8,7 +8,7 @@ import {
   Param,
   Patch,
   Post,
-  ValidationPipe,
+  ValidationPipe
 } from '@nestjs/common';
 import { InternalError } from '../constants/errors';
 import { validationPipeExceptionFormatter } from '../exceptions/formatter';
@@ -16,12 +16,13 @@ import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) {
+  }
 
   @Get()
-  findAll(): APIUsers | APIErrors {
+  async findAll(): Promise<APIUsers | APIErrors> {
     try {
-      const users = this.usersService.findAll();
+      const users = await this.usersService.findAll();
 
       return { users };
     } catch (e) {
@@ -36,9 +37,9 @@ export class UsersController {
   }
 
   @Get('/:id')
-  find(@Param('id') id: string): APIUser | APIErrors {
+  async find(@Param('id') id: string): Promise<APIUser | APIErrors> {
     try {
-      const user = this.usersService.find(id);
+      const user = await this.usersService.find(id);
 
       return { user };
     } catch (e) {
@@ -53,14 +54,14 @@ export class UsersController {
   }
 
   @Post()
-  createUser(
+  async createUser(
     @Body(
       new ValidationPipe({ exceptionFactory: validationPipeExceptionFormatter })
     )
-    body: UserDTOValidation
-  ): APIUser | APIErrors {
+      body: UserDTOValidation
+  ): Promise<APIUser | APIErrors> {
     try {
-      const user = this.usersService.createUser(body as Omit<UserDTO, 'id'>);
+      const user = await this.usersService.createUser(body as Omit<UserDTO, 'id'>);
 
       return { user };
     } catch (e) {
@@ -75,18 +76,18 @@ export class UsersController {
   }
 
   @Patch('/:id')
-  updateUser(
+  async updateUser(
     @Param('id') id: string,
     @Body(
       new ValidationPipe({
         exceptionFactory: validationPipeExceptionFormatter,
-        skipMissingProperties: true,
+        skipMissingProperties: true
       })
     )
-    body: UserDTOValidation
-  ): APIUser | APIErrors {
+      body: UserDTOValidation
+  ): Promise<APIUser | APIErrors> {
     try {
-      const user = this.usersService.updateUser(
+      const user = await this.usersService.updateUser(
         id,
         body as Partial<Omit<UserDTO, 'id'>>
       );
@@ -104,9 +105,9 @@ export class UsersController {
   }
 
   @Delete('/:id')
-  deleteUser(@Param('id') id: string): any | APIErrors {
+  async deleteUser(@Param('id') id: string): Promise<any | APIErrors> {
     try {
-      this.usersService.deleteUser(id);
+      await this.usersService.deleteUser(id);
 
       return {};
     } catch (e) {

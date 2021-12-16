@@ -1,4 +1,11 @@
-import { APIBike, APIBikes, APIErrors, BikeDTO, Errors } from '@gui-nx/types';
+import {
+  APIBike,
+  APIBikes,
+  APIErrors,
+  BikeDTO,
+  Errors,
+  UserPermission,
+} from '@gui-nx/types';
 import { BikeDTOValidation } from '@gui-nx/validations';
 import {
   Body,
@@ -8,16 +15,18 @@ import {
   Param,
   Patch,
   Post,
-  ValidationPipe
+  UseGuards,
+  ValidationPipe,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { PermissionGuard } from '../auth/permission.guard';
 import { InternalError } from '../constants/errors';
 import { validationPipeExceptionFormatter } from '../exceptions/formatter';
 import { BikesService } from './bikes.service';
 
 @Controller('bikes')
 export class BikesController {
-  constructor(private readonly bikesService: BikesService) {
-  }
+  constructor(private readonly bikesService: BikesService) {}
 
   @Get()
   async findAll(): Promise<APIBikes | APIErrors> {
@@ -53,15 +62,18 @@ export class BikesController {
     }
   }
 
+  @UseGuards(AuthGuard('jwt'), new PermissionGuard([UserPermission.ADMIN]))
   @Post()
   async createBike(
     @Body(
       new ValidationPipe({ exceptionFactory: validationPipeExceptionFormatter })
     )
-      body: BikeDTOValidation
+    body: BikeDTOValidation
   ): Promise<APIBike | APIErrors> {
     try {
-      const bike = await this.bikesService.createBike(body as Omit<BikeDTO, 'id'>);
+      const bike = await this.bikesService.createBike(
+        body as Omit<BikeDTO, 'id'>
+      );
 
       return { bike };
     } catch (e) {
@@ -75,16 +87,17 @@ export class BikesController {
     }
   }
 
+  @UseGuards(AuthGuard('jwt'), new PermissionGuard([UserPermission.ADMIN]))
   @Patch('/:id')
   async updateBike(
     @Param('id') id: string,
     @Body(
       new ValidationPipe({
         exceptionFactory: validationPipeExceptionFormatter,
-        skipMissingProperties: true
+        skipMissingProperties: true,
       })
     )
-      body: BikeDTOValidation
+    body: BikeDTOValidation
   ): Promise<APIBike | APIErrors> {
     try {
       const bike = await this.bikesService.updateBike(
@@ -104,6 +117,7 @@ export class BikesController {
     }
   }
 
+  @UseGuards(AuthGuard('jwt'), new PermissionGuard([UserPermission.ADMIN]))
   @Delete('/:id')
   async deleteBike(@Param('id') id: string): Promise<any | APIErrors> {
     try {

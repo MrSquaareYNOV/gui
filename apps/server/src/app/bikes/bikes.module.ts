@@ -3,11 +3,14 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { BikesController } from './bikes.controller';
 import { BikesService } from './bikes.service';
 import { Bike, BikeSchema } from '@gui-nx/schema';
+import { JwtStrategy } from '../auth/jwt.strategy';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: Bike.name, schema: BikeSchema }])],
+  imports: [
+    MongooseModule.forFeature([{ name: Bike.name, schema: BikeSchema }]),
+    JwtStrategy,
+  ],
   controllers: [BikesController],
-  providers: [BikesService]
+  providers: [BikesService],
 })
-export class BikesModule {
-}
+export class BikesModule {}

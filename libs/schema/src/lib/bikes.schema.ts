@@ -8,6 +8,8 @@ export class Bike {
   _id: string;
   @Prop({ required: true })
   name: string;
+  @Prop({ required: true })
+  id: string;
 }
 
 export const BikeSchema = SchemaFactory.createForClass(Bike);

@@ -1,94 +1,85 @@
 import { UserDTO, Errors, UserPermission } from '@gui-nx/types';
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { v4 } from 'uuid';
+import { InjectModel } from '@nestjs/mongoose';
+import { Park, ParkDocument, User, UserDocument } from '@gui-nx/schema';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class UsersService implements OnModuleInit {
-  private _users: UserDTO[] = [];
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {
+  }
+
+//  private _users: UserDTO[] = [];
 
   onModuleInit() {
     this.createUser({
       email: 'admin',
       password: 'admin',
-      permission: UserPermission.ADMIN,
+      permission: UserPermission.ADMIN
     });
   }
 
-  findAll(): UserDTO[] {
-    return this._users.map((user) => {
+  async findAll(): Promise<User[]> {
+    return (await this.userModel.find().exec()).map((user) => {
       const { password, ...userWithoutPassword } = user;
 
       return userWithoutPassword;
     });
   }
 
-  find(id: string): UserDTO | undefined {
-    const user = this._users.find((user) => user.id === id);
+  async find(id: string): Promise<User | undefined> {
+    const user = await this.userModel.find({ _id: id }).exec();
 
     if (!user) {
       throw new Errors([{ code: 'USER_NOT_FOUND', message: 'User not found' }]);
     }
 
-    const { password, ...userWithoutPassword } = user;
+    const { password, ...userWithoutPassword } = user[0];
 
     return userWithoutPassword;
   }
 
-  findByEmail(email: string): UserDTO | undefined {
-    const user = this._users.find((user) => user.email === email);
+  async findByEmail(email: string): Promise<User | undefined> {
+    const user = await this.userModel.find({ email }).exec();
 
     if (!user) {
       throw new Errors([{ code: 'USER_NOT_FOUND', message: 'User not found' }]);
     }
 
-    const { ...userWithPassword } = user;
+    const { ...userWithPassword } = user[0];
 
     return userWithPassword;
   }
 
-  createUser(user: Omit<UserDTO, 'id'>): UserDTO {
-    const newUser = {
-      ...user,
-      id: v4(),
-    };
+  async createUser(user: Omit<UserDTO, 'id'>): Promise<User> {
 
-    this._users.push(newUser);
-
-    const { password, ...userWithoutPassword } = newUser;
+    const createdPark = await new this.userModel({ ...user,id:v4() });
+    createdPark.save();
+    const { password, ...userWithoutPassword } = createdPark;
 
     return userWithoutPassword;
   }
 
-  updateUser(
+  async updateUser(
     id: string,
     user: Partial<Omit<UserDTO, 'id'>>
-  ): UserDTO | undefined {
-    const userIdx = this._users.findIndex((item) => item.id === id);
+  ): Promise<User | undefined> {
 
-    if (userIdx === -1) {
-      throw new Errors([{ code: 'USER_NOT_FOUND', message: 'User not found' }]);
-    }
-
-    const editedUser = {
-      ...this._users[userIdx],
-      ...user,
-      id: id,
-    };
-
-    this._users.splice(userIdx, 1, editedUser);
+    const editedUser = await this.userModel.findByIdAndUpdate(id, user).exec();
 
     const { password, ...userWithoutPassword } = editedUser;
 
     return userWithoutPassword;
   }
 
-  deleteUser(id: string): void {
-    const userIdx = this._users.findIndex((item) => item.id === id);
+  async deleteUser(id: string): Promise<void> {
 
-    if (userIdx === -1) {
-      throw new Errors([{ code: 'USER_NOT_FOUND', message: 'User not found' }]);
-    }
+    await this.userModel.findByIdAndDelete(id).exec();
+    /* if (userIdx === -1) {
+       throw new Errors([{ code: 'USER_NOT_FOUND', message: 'User not found' }]);
+     }
+    */
 
-    this._users.splice(userIdx, 1);
   }
 }

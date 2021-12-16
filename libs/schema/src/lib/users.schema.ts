@@ -1,12 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { UserPermission } from '@gui-nx/types';
+import { Station } from './stations.schema';
+
 
 export type UserDocument = User & Document;
 
 @Schema()
 export class User {
-  id: string;
   @Prop({ required: true })
   email: string;
   @Prop()
@@ -16,16 +16,9 @@ export class User {
   @Prop()
   rentalPosition?: string;
   @Prop({ required: true })
-  permission: UserPermission;
+  permission: number;
+  @Prop({ required: true })
+  id: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
-// Duplicate the ID field.
-UserSchema.virtual('id').get(function() {
-  return this._id.toHexString();
-});
-
-// Ensure virtual fields are serialised.
-UserSchema.set('toJSON', {
-  virtuals: true
-});

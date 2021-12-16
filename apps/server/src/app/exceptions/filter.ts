@@ -6,7 +6,6 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { HttpAdapterHost } from '@nestjs/core';
 import { Response } from 'express';
 
 const getStatusError = (status: number): Error => {
@@ -41,6 +40,16 @@ export class AllExceptionsFilter implements ExceptionFilter {
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR;
     const statusError = getStatusError(status);
+
+    if (exception instanceof HttpException) {
+      const errResponse = exception.getResponse() as Record<string, any>;
+
+      if (errResponse.errors) {
+        response.status(status).json(errResponse);
+
+        return;
+      }
+    }
 
     const responseBody = {
       errors: [statusError],

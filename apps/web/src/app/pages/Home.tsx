@@ -1,5 +1,5 @@
 import { Avatar, Button } from '@mui/material';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { Route, useHistory } from 'react-router-dom';
 
 import styles from './Home.module.scss';
@@ -22,6 +22,12 @@ import { ManageUser } from '../components/manage/users/User';
 
 export const Home: FC = () => {
   const history = useHistory();
+
+  useEffect(() => {
+    if (!localStorage.getItem('token')) {
+      history.push('/login');
+    }
+  }, [history]);
 
   return (
     <div className={styles.container}>

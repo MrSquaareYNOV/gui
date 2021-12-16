@@ -42,6 +42,10 @@ export const ManageUser: FC = () => {
       fieldErrors?.filter(
         (error) => error.code === 'INVALID_FIELD_RENTALPOSITION'
       ) || [],
+    permission:
+      fieldErrors?.filter(
+        (error) => error.code === 'INVALID_FIELD_PERMISSION'
+      ) || [],
   };
 
   const getUser = async (id: string) => {
@@ -138,6 +142,7 @@ export const ManageUser: FC = () => {
             password: '',
             rentalBikeId: '',
             rentalPosition: '',
+            permission: 0,
           }
         }
         enableReinitialize={true}

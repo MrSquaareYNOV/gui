@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { BikeList } from '../../bikes/BikeList';
 
 import styles from './Bikes.module.scss';
-import { BikeRepository } from '../../../repositories/bike';
+import { BikeRepository } from '@gui-nx/repositories';
 import { BikeDTO, Error, Errors } from '@gui-nx/types';
 
 export const Bikes: FC = () => {

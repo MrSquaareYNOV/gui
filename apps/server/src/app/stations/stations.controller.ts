@@ -3,7 +3,7 @@ import {
   APIStations,
   APIErrors,
   StationDTO,
-  Errors,
+  Errors
 } from '@gui-nx/types';
 import { StationDTOValidation } from '@gui-nx/validations';
 import {
@@ -14,7 +14,7 @@ import {
   Param,
   Patch,
   Post,
-  ValidationPipe,
+  ValidationPipe
 } from '@nestjs/common';
 import { InternalError } from '../constants/errors';
 import { validationPipeExceptionFormatter } from '../exceptions/formatter';
@@ -22,12 +22,13 @@ import { StationsService } from './stations.service';
 
 @Controller('stations')
 export class StationsController {
-  constructor(private readonly stationsService: StationsService) {}
+  constructor(private readonly stationsService: StationsService) {
+  }
 
   @Get()
-  findAll(): APIStations | APIErrors {
+  async findAll(): Promise<APIStations | APIErrors> {
     try {
-      const stations = this.stationsService.findAll();
+      const stations = await this.stationsService.findAll();
 
       return { stations };
     } catch (e) {
@@ -42,9 +43,9 @@ export class StationsController {
   }
 
   @Get('/:id')
-  find(@Param('id') id: string): APIStation | APIErrors {
+  async find(@Param('id') id: string): Promise<APIStation | APIErrors> {
     try {
-      const station = this.stationsService.find(id);
+      const station = await this.stationsService.find(id);
 
       return { station };
     } catch (e) {
@@ -59,14 +60,14 @@ export class StationsController {
   }
 
   @Post()
-  createStation(
+  async createStation(
     @Body(
       new ValidationPipe({ exceptionFactory: validationPipeExceptionFormatter })
     )
-    body: StationDTOValidation
-  ): APIStation | APIErrors {
+      body: StationDTOValidation
+  ): Promise<APIStation | APIErrors> {
     try {
-      const station = this.stationsService.createStation(
+      const station = await this.stationsService.createStation(
         body as Omit<StationDTO, 'id'>
       );
 
@@ -83,18 +84,18 @@ export class StationsController {
   }
 
   @Patch('/:id')
-  updateStation(
+  async updateStation(
     @Param('id') id: string,
     @Body(
       new ValidationPipe({
         exceptionFactory: validationPipeExceptionFormatter,
-        skipMissingProperties: true,
+        skipMissingProperties: true
       })
     )
-    body: StationDTOValidation
-  ): APIStation | APIErrors {
+      body: StationDTOValidation
+  ): Promise<APIStation | APIErrors> {
     try {
-      const station = this.stationsService.updateStation(
+      const station = await this.stationsService.updateStation(
         id,
         body as Partial<Omit<StationDTO, 'id'>>
       );
@@ -112,9 +113,9 @@ export class StationsController {
   }
 
   @Delete('/:id')
-  deleteStation(@Param('id') id: string): any | APIErrors {
+  async deleteStation(@Param('id') id: string): Promise<any | APIErrors> {
     try {
-      this.stationsService.deleteStation(id);
+      await this.stationsService.deleteStation(id);
 
       return {};
     } catch (e) {

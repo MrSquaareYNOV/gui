@@ -1,0 +1,43 @@
+.nav {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 60px;
+  line-height: 60px;
+  z-index: 1000;
+  background-color: #fff;
+  border-radius: 5px 5px 0 0;
+
+  ul {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    height: 40px;
+    margin: 10px 20px;
+    padding: 0;
+
+    li {
+      display: flex;
+      align-items: center;
+
+      & > img {
+        height: 100%;
+        margin: auto;
+      }
+    }
+  }
+}
+
+.separator {
+  width: 1px;
+  height: 80%;
+  margin: auto 0;
+  background-color: black;
+}
+
+.selected {
+  background-color: #f1f1f1;
+  border-radius: 50%;
+}

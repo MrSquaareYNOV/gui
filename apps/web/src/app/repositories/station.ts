@@ -1,28 +1,74 @@
 import { StationDTO } from '@gui-nx/types';
+import axios from 'axios';
+import { API_BASE_URL } from '../constants/api';
+import { getError } from '../utilities/errors';
 
 export class StationRepository {
-  private _stations: StationDTO[] = [
-    {
-      id: '0',
-      name: 'Station 0',
-      location: '0.0,0.0',
-      currentBikesIds: ['0', '1'],
-      totalBikes: 10,
-    },
-    {
-      id: '1',
-      name: 'Station 1',
-      location: '1.0,0.1',
-      currentBikesIds: ['2', '3'],
-      totalBikes: 10,
-    },
-  ];
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private constructor() {}
+  private static _instance?: StationRepository;
 
-  getStation(id: string): StationDTO | undefined {
-    return this._stations.find((station) => station.id === id);
+  static get(): StationRepository {
+    if (!this._instance) {
+      this._instance = new StationRepository();
+    }
+
+    return this._instance;
   }
 
-  getStations(): StationDTO[] {
-    return this._stations;
+  async getStations(): Promise<StationDTO[]> {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/stations`);
+
+      return response.data.stations;
+    } catch (e) {
+      throw getError(e);
+    }
+  }
+
+  async getStation(id: string): Promise<StationDTO | undefined> {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/stations/${id}`);
+
+      return response.data.station;
+    } catch (e) {
+      throw getError(e);
+    }
+  }
+
+  async createStation(station: Omit<StationDTO, 'id'>): Promise<StationDTO> {
+    try {
+      const response = await axios.post(`${API_BASE_URL}/stations`, station);
+
+      return response.data.station;
+    } catch (e) {
+      throw getError(e);
+    }
+  }
+
+  async editStation(
+    id: string,
+    station: Partial<Omit<StationDTO, 'id'>>
+  ): Promise<StationDTO | undefined> {
+    try {
+      const response = await axios.patch(
+        `${API_BASE_URL}/stations/${id}`,
+        station
+      );
+
+      return response.data.station;
+    } catch (e) {
+      throw getError(e);
+    }
+  }
+
+  async deleteStation(id: string): Promise<boolean> {
+    try {
+      await axios.delete(`${API_BASE_URL}/stations/${id}`);
+
+      return true;
+    } catch (e) {
+      throw getError(e);
+    }
   }
 }

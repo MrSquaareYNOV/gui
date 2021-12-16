@@ -1,26 +1,71 @@
 import { ParkDTO } from '@gui-nx/types';
+import axios from 'axios';
+import { API_BASE_URL } from '../constants/api';
+import { getError } from '../utilities/errors';
 
 export class ParkRepository {
-  private _parks: ParkDTO[] = [
-    {
-      id: '0',
-      name: 'Park 0',
-      location: '0.0,0.0',
-      stationsIds: ['0'],
-    },
-    {
-      id: '1',
-      name: 'Park 1',
-      location: '1.0,0.1',
-      stationsIds: ['1'],
-    },
-  ];
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private constructor() {}
+  private static _instance?: ParkRepository;
 
-  getPark(id: string): ParkDTO | undefined {
-    return this._parks.find((park) => park.id === id);
+  static get(): ParkRepository {
+    if (!this._instance) {
+      this._instance = new ParkRepository();
+    }
+
+    return this._instance;
   }
 
-  getParks(): ParkDTO[] {
-    return this._parks;
+  async getParks(): Promise<ParkDTO[]> {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/parks`);
+
+      return response.data.parks;
+    } catch (e) {
+      throw getError(e);
+    }
+  }
+
+  async getPark(id: string): Promise<ParkDTO | undefined> {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/parks/${id}`);
+
+      return response.data.park;
+    } catch (e) {
+      throw getError(e);
+    }
+  }
+
+  async createPark(park: Omit<ParkDTO, 'id'>): Promise<ParkDTO> {
+    try {
+      const response = await axios.post(`${API_BASE_URL}/parks`, park);
+
+      return response.data.park;
+    } catch (e) {
+      throw getError(e);
+    }
+  }
+
+  async editPark(
+    id: string,
+    park: Partial<Omit<ParkDTO, 'id'>>
+  ): Promise<ParkDTO | undefined> {
+    try {
+      const response = await axios.patch(`${API_BASE_URL}/parks/${id}`, park);
+
+      return response.data.park;
+    } catch (e) {
+      throw getError(e);
+    }
+  }
+
+  async deletePark(id: string): Promise<boolean> {
+    try {
+      await axios.delete(`${API_BASE_URL}/parks/${id}`);
+
+      return true;
+    } catch (e) {
+      throw getError(e);
+    }
   }
 }

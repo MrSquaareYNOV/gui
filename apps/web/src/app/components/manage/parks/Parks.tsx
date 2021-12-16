@@ -1,20 +1,80 @@
-import { Button } from '@mui/material';
-import { FC } from 'react';
+import { Alert, AlertTitle, Button, LinearProgress } from '@mui/material';
+import { FC, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { ParkList } from '../../parks/ParkList';
 
 import styles from './Parks.module.scss';
 import { ParkRepository } from '../../../repositories/park';
+import { ParkDTO, Errors } from '@gui-nx/types';
 
 export const ManageParks: FC = () => {
-  const parksRepository = new ParkRepository();
+  const parkRepository = ParkRepository.get();
   const history = useHistory();
+
+  const [parks, setParks] = useState<ParkDTO[]>();
+  const [errors, setErrors] = useState<Errors>();
+
+  const getParks = async () => {
+    try {
+      const parks = await parkRepository.getParks();
+
+      setParks(parks);
+      setErrors(undefined);
+    } catch (e) {
+      if (e instanceof Errors) {
+        setErrors(e);
+      } else {
+        console.error(e);
+      }
+    }
+  };
+
+  const deletePark = async (id: string) => {
+    try {
+      await parkRepository.deletePark(id);
+
+      setErrors(undefined);
+
+      await getParks();
+    } catch (e) {
+      if (e instanceof Errors) {
+        setErrors(e);
+      } else {
+        console.error(e);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getParks();
+  }, []);
+
+  if (errors) {
+    return (
+      <div className={styles.container}>
+        {errors.list.map((error, idx) => (
+          <Alert key={idx} severity="error">
+            <AlertTitle>{error.code}</AlertTitle>
+            {error.message}
+          </Alert>
+        ))}
+      </div>
+    );
+  }
+
+  if (!parks) {
+    return (
+      <div className={styles.container}>
+        <LinearProgress />
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
       <div className={styles.headerContainer}>
-        <h1 className={styles.header}>Gestion des parks</h1>
+        <h1 className={styles.header}>Gestion des parcs</h1>
         <Button
           variant="contained"
           onClick={() => history.push('/manage/parks/add')}
@@ -23,9 +83,10 @@ export const ManageParks: FC = () => {
         </Button>
       </div>
       <ParkList
-        parks={parksRepository.getParks()}
+        parks={parks}
         manage={true}
         onEdit={(park) => history.push(`/manage/parks/edit/${park.id}`)}
+        onDelete={(park) => deletePark(park.id)}
       />
     </div>
   );

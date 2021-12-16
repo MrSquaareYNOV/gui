@@ -29,7 +29,7 @@ export const BikeForm: FC<Props> = ({ bike, errors, onChange, onSubmit }) => {
       <div className={styles.inputContainer}>
         <TextField
           id="name"
-          label="Name"
+          label="Nom"
           variant="outlined"
           value={bike.name}
           onChange={onChange}

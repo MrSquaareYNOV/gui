@@ -33,6 +33,11 @@ export class ParksService {
     id: string,
     park: Partial<Omit<ParkDTO, 'id'>>
   ): Promise<Park | undefined> {
+    /*
+       if (userIdx === -1) {
+      throw new Errors([{ code: 'USER_NOT_FOUND', message: 'User not found' }]);
+    }
+     */
     return await this.parkModel.findByIdAndUpdate(id, park).exec();
   }
 

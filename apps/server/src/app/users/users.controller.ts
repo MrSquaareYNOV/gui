@@ -19,9 +19,9 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
-  findAll(): APIUsers | APIErrors {
+  async findAll(): Promise<APIUsers | APIErrors> {
     try {
-      const users = this.usersService.findAll();
+      const users = await this.usersService.findAll();
 
       return { users };
     } catch (e) {

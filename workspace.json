@@ -3,6 +3,7 @@
   "projects": {
     "mobile": "apps/mobile",
     "mobile-e2e": "apps/mobile-e2e",
+    "repositories": "libs/repositories",
     "server": "apps/server",
     "types": "libs/types",
     "validations": "libs/validations",

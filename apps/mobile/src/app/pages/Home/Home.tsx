@@ -8,8 +8,8 @@ import styles from './Home.module.scss';
 import {Button} from "@mui/material";
 import Nav, {Page} from "../../components/Nav/Nav";
 
-import { StationRepository } from '@gui-nx/repositories';
-import { Errors, StationDTO } from '@gui-nx/types';
+import {ParkRepository, StationRepository} from '@gui-nx/repositories';
+import {Errors, ParkDTO, StationDTO} from '@gui-nx/types';
 
 import 'leaflet/dist/leaflet.css';
 
@@ -23,17 +23,36 @@ let DefaultIcon = L.icon({
 
 L.Marker.prototype.options.icon = DefaultIcon;
 
-interface OwnProps {}
+interface OwnProps {
+}
 
 type Props = OwnProps;
 
 const Home: FunctionComponent<Props> = (props) => {
   const position: LatLngExpression = [43.609379506911765, 1.4416139181721617];
 
+  const parkRepository = ParkRepository.get();
   const stationRepository = StationRepository.get();
+
+  const [park, setPark] = useState<ParkDTO>();
 
   const [stations, setStations] = useState<StationDTO[]>();
   const [errors, setErrors] = useState<Errors>();
+
+  const getPark = async () => {
+    try {
+      const toulouse = await parkRepository.getPark("6cf1ff5e-eaf4-4fc3-bf70-7345bdccc52c");
+
+      setPark(toulouse);
+      setErrors(undefined);
+    } catch (e) {
+      if (e instanceof Errors) {
+        setErrors(e);
+      } else {
+        console.error(e);
+      }
+    }
+  };
 
   const getStations = async () => {
     try {
@@ -51,29 +70,30 @@ const Home: FunctionComponent<Props> = (props) => {
   };
 
   useEffect(() => {
-    getStations()
+    getStations();
+    getPark();
   }, []);
 
   const getStationLocation = (station: StationDTO): LatLngExpression => {
     const stationX = station.location.split(",")[0];
     const stationY = station.location.split(",")[1];
-    let stationLoc: [number, number] = [parseFloat(stationX), parseFloat(stationY)];
+    let stationLoc: [number, number] = [parseFloat(stationX) || 0, parseFloat(stationY) || 0];
     return stationLoc;
   }
 
   return (
     <div className={styles.home}>
       <div className={styles.header}>
-        <img src={logo} alt="Logo" />
+        <img src={logo} alt="Logo"/>
         <div>
           <h3>TOULOUSE</h3>
-          <p>78 bikes disponibles dans votre ville</p>
+          <p>67 bikes disponibles dans votre ville</p>
         </div>
       </div>
 
       <div className={styles.map}>
         <MapContainer center={position} zoom={15} scrollWheelZoom={false} tap={false}>
-          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
           {stations?.map((station) => {
             const pos = getStationLocation(station);
             return (
@@ -84,13 +104,13 @@ const Home: FunctionComponent<Props> = (props) => {
               </Marker>
             )
           })}
-          <Circle center={position} radius={10} pathOptions={{ color: 'red' }} />
+          <Circle center={position} radius={10} pathOptions={{color: 'red'}}/>
         </MapContainer>
       </div>
 
       <div className={styles.cta}><Button variant="contained">ME TROUVER UN BIKE</Button></div>
 
-      <Nav selected={Page.map} />
+      <Nav selected={Page.map}/>
     </div>
   );
 };

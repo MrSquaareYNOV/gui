@@ -37,9 +37,13 @@ export class BikeRepository {
     }
   }
 
-  async createBike(bike: Omit<BikeDTO, 'id'>): Promise<BikeDTO> {
+  async createBike(token: string, bike: Omit<BikeDTO, 'id'>): Promise<BikeDTO> {
     try {
-      const response = await axios.post(`${API_BASE_URL}/bikes`, bike);
+      const response = await axios.post(`${API_BASE_URL}/bikes`, bike, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       return response.data.bike;
     } catch (e) {
@@ -48,11 +52,16 @@ export class BikeRepository {
   }
 
   async editBike(
+    token: string,
     id: string,
     bike: Partial<Omit<BikeDTO, 'id'>>
   ): Promise<BikeDTO | undefined> {
     try {
-      const response = await axios.patch(`${API_BASE_URL}/bikes/${id}`, bike);
+      const response = await axios.patch(`${API_BASE_URL}/bikes/${id}`, bike, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       return response.data.bike;
     } catch (e) {
@@ -60,9 +69,13 @@ export class BikeRepository {
     }
   }
 
-  async deleteBike(id: string): Promise<boolean> {
+  async deleteBike(token: string, id: string): Promise<boolean> {
     try {
-      await axios.delete(`${API_BASE_URL}/bikes/${id}`);
+      await axios.delete(`${API_BASE_URL}/bikes/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       return true;
     } catch (e) {

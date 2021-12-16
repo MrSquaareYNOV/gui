@@ -1,5 +1,5 @@
 import { Avatar, Button } from '@mui/material';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { Route, useHistory } from 'react-router-dom';
 
 import { Find } from '../components/find/Find';
@@ -21,6 +21,17 @@ import styles from './Home.module.scss';
 
 export const Home: FC = () => {
   const history = useHistory();
+
+  const disconnect = () => {
+    localStorage.removeItem('token');
+    history.push('/login');
+  };
+
+  useEffect(() => {
+    if (!localStorage.getItem('token')) {
+      history.push('/login');
+    }
+  }, [history]);
 
   return (
     <div className={styles.container}>
@@ -60,6 +71,15 @@ export const Home: FC = () => {
               onClick={() => history.push('/find')}
             >
               Trouver
+            </Button>
+          </div>
+          <div className={styles.navigationButtonContainer}>
+            <Button
+              variant="contained"
+              sx={{ width: '100%' }}
+              onClick={() => disconnect()}
+            >
+              Déconnexion
             </Button>
           </div>
         </div>

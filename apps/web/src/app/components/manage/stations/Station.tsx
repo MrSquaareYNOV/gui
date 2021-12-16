@@ -1,5 +1,5 @@
-import { StationRepository } from '@gui-nx/repositories';
-import {Errors, StationDTO } from '@gui-nx/types';
+import { BikeRepository, StationRepository } from '@gui-nx/repositories';
+import { BikeDTO, Errors, StationDTO } from '@gui-nx/types';
 import { Alert, AlertTitle, LinearProgress } from '@mui/material';
 import { Formik } from 'formik';
 import { FC, useEffect, useState } from 'react';
@@ -14,10 +14,12 @@ type Params = {
 
 export const ManageStation: FC = () => {
   const stationRepository = StationRepository.get();
+  const bikeRepository = BikeRepository.get();
   const { id } = useParams<Params>();
   const history = useHistory();
 
   const [station, setStation] = useState<StationDTO>();
+  const [bikes, setBikes] = useState<BikeDTO[]>();
   const [errors, setErrors] = useState<Errors>();
 
   const globalErrors = errors?.list.filter(
@@ -47,6 +49,21 @@ export const ManageStation: FC = () => {
       const station = await stationRepository.getStation(id);
 
       setStation(station);
+      setErrors(undefined);
+    } catch (e) {
+      if (e instanceof Errors) {
+        setErrors(e);
+      } else {
+        console.error(e);
+      }
+    }
+  };
+
+  const getBikes = async () => {
+    try {
+      const bikes = await bikeRepository.getBikes();
+
+      setBikes(bikes);
       setErrors(undefined);
     } catch (e) {
       if (e instanceof Errors) {
@@ -104,9 +121,11 @@ export const ManageStation: FC = () => {
     if (id) {
       getStation(id);
     }
+
+    getBikes();
   }, [id]);
 
-  if (id && !station) {
+  if ((id && !station) || !bikes) {
     return (
       <div className={styles.container}>
         <LinearProgress />
@@ -148,6 +167,7 @@ export const ManageStation: FC = () => {
           return (
             <StationForm
               station={values}
+              bikes={bikes}
               errors={formErrors}
               onChange={handleChange}
               onSubmit={handleSubmit}

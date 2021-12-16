@@ -1,5 +1,5 @@
 import { BikeRepository } from '@gui-nx/repositories';
-import { BikeDTO,Errors } from '@gui-nx/types';
+import { BikeDTO, Errors } from '@gui-nx/types';
 import { Alert, AlertTitle, LinearProgress } from '@mui/material';
 import { Formik } from 'formik';
 import { FC, useEffect, useState } from 'react';
@@ -47,8 +47,12 @@ export const ManageBike: FC = () => {
   };
 
   const createBike = async (bike: Omit<BikeDTO, 'id'>) => {
+    const token = localStorage.getItem('token');
+
+    if (!token) return;
+
     try {
-      await bikeRepository.createBike(bike);
+      await bikeRepository.createBike(token, bike);
 
       setErrors(undefined);
 
@@ -63,8 +67,12 @@ export const ManageBike: FC = () => {
   };
 
   const editBike = async (id: string, bike: Partial<Omit<BikeDTO, 'id'>>) => {
+    const token = localStorage.getItem('token');
+
+    if (!token) return;
+
     try {
-      await bikeRepository.editBike(id, bike);
+      await bikeRepository.editBike(token, id, bike);
 
       setErrors(undefined);
 

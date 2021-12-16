@@ -1,5 +1,5 @@
-import { ParkRepository } from '@gui-nx/repositories';
-import {Errors, ParkDTO } from '@gui-nx/types';
+import { ParkRepository, StationRepository } from '@gui-nx/repositories';
+import { Errors, ParkDTO, StationDTO } from '@gui-nx/types';
 import { Alert, AlertTitle, LinearProgress } from '@mui/material';
 import { Formik } from 'formik';
 import { FC, useEffect, useState } from 'react';
@@ -14,10 +14,12 @@ type Params = {
 
 export const ManagePark: FC = () => {
   const parkRepository = ParkRepository.get();
+  const stationRepository = StationRepository.get();
   const { id } = useParams<Params>();
   const history = useHistory();
 
   const [park, setPark] = useState<ParkDTO>();
+  const [stations, setStations] = useState<StationDTO[]>();
   const [errors, setErrors] = useState<Errors>();
 
   const globalErrors = errors?.list.filter(
@@ -43,6 +45,21 @@ export const ManagePark: FC = () => {
       const park = await parkRepository.getPark(id);
 
       setPark(park);
+      setErrors(undefined);
+    } catch (e) {
+      if (e instanceof Errors) {
+        setErrors(e);
+      } else {
+        console.error(e);
+      }
+    }
+  };
+
+  const getStations = async () => {
+    try {
+      const stations = await stationRepository.getStations();
+
+      setStations(stations);
       setErrors(undefined);
     } catch (e) {
       if (e instanceof Errors) {
@@ -97,9 +114,11 @@ export const ManagePark: FC = () => {
     if (id) {
       getPark(id);
     }
+
+    getStations();
   }, [id]);
 
-  if (id && !park) {
+  if ((id && !park) || !stations) {
     return (
       <div className={styles.container}>
         <LinearProgress />
@@ -138,6 +157,7 @@ export const ManagePark: FC = () => {
           return (
             <ParkForm
               park={values}
+              stations={stations}
               errors={formErrors}
               onChange={handleChange}
               onSubmit={handleSubmit}

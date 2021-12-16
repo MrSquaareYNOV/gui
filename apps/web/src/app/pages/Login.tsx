@@ -1,6 +1,6 @@
 import { AuthRepository } from '@gui-nx/repositories';
 import { Errors, UserDTO } from '@gui-nx/types';
-import { Button, TextField } from '@mui/material';
+import { Alert, AlertTitle, Button, TextField } from '@mui/material';
 import { Formik } from 'formik';
 import React, { FC, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -45,53 +45,69 @@ export const Login: FC = () => {
         <img src={Logo} alt="Logo" />
         <h1 className={styles.logoTexte}>GUICYCLE</h1>
       </div>
-      <Formik
-        initialValues={{
-          email: '',
-          password: '',
-        }}
-        onSubmit={(values) => login(values)}
-      >
-        {({ values, handleChange, handleSubmit }) => (
-          <form className={styles.boxContainer} onSubmit={handleSubmit}>
-            <div className={styles.fieldContainer}>
-              <TextField
-                id="email"
-                label="E-mail"
-                variant="standard"
-                font-color="white"
-                sx={{
-                  input: {
-                    color: '#fff',
-                  },
-                }}
-                value={values.email}
-                onChange={handleChange}
-              />
-            </div>
-            <div className={styles.fieldContainer}>
-              <TextField
-                id="password"
-                label="Password"
-                variant="standard"
-                type="password"
-                sx={{
-                  input: {
-                    color: '#fff',
-                  },
-                }}
-                value={values.password}
-                onChange={handleChange}
-              />
-            </div>
-            <div className={styles.buttonContainer}>
-              <Button variant="contained" type="submit" sx={{ width: '100%' }}>
-                Login
-              </Button>
-            </div>
-          </form>
-        )}
-      </Formik>
+      <div>
+        {errors ? (
+          <div className={styles.errorContainer}>
+            {errors.list.map((error, idx) => (
+              <Alert key={idx} severity="error">
+                <AlertTitle>{error.code}</AlertTitle>
+                {error.message}
+              </Alert>
+            ))}
+          </div>
+        ) : null}
+        <Formik
+          initialValues={{
+            email: '',
+            password: '',
+          }}
+          onSubmit={(values) => login(values)}
+        >
+          {({ values, handleChange, handleSubmit }) => (
+            <form className={styles.boxContainer} onSubmit={handleSubmit}>
+              <div className={styles.fieldContainer}>
+                <TextField
+                  id="email"
+                  label="E-mail"
+                  variant="standard"
+                  font-color="white"
+                  sx={{
+                    input: {
+                      color: '#fff',
+                    },
+                  }}
+                  value={values.email}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className={styles.fieldContainer}>
+                <TextField
+                  id="password"
+                  label="Password"
+                  variant="standard"
+                  type="password"
+                  sx={{
+                    input: {
+                      color: '#fff',
+                    },
+                  }}
+                  value={values.password}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className={styles.buttonContainer}>
+                <Button
+                  variant="contained"
+                  type="submit"
+                  sx={{ width: '100%' }}
+                >
+                  Login
+                </Button>
+              </div>
+            </form>
+          )}
+        </Formik>
+      </div>
     </div>
   );
 };

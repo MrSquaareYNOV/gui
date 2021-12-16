@@ -30,8 +30,12 @@ export const ManageBikes: FC = () => {
   };
 
   const deleteBike = async (id: string) => {
+    const token = localStorage.getItem('token');
+
+    if (!token) return;
+
     try {
-      await bikeRepository.deleteBike(id);
+      await bikeRepository.deleteBike(token, id);
 
       setErrors(undefined);
 

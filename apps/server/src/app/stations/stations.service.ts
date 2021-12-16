@@ -1,78 +1,46 @@
 import { StationDTO, Errors } from '@gui-nx/types';
 import { Injectable } from '@nestjs/common';
 import { v4 } from 'uuid';
+import { InjectModel } from '@nestjs/mongoose';
+import { Station, StationDocument } from '@gui-nx/schema';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class StationsService {
-  private _stations: StationDTO[] = [
-    {
-      id: "21323",
-      name: "lastation",
-      location: "43.604652,1.444209",
-      currentBikesIds: ["43652", "14209"],
-      totalBikes: 2
-    }
-  ];
-
-  findAll(): StationDTO[] {
-    return this._stations;
+  constructor(@InjectModel(Station.name) private stationModel: Model<StationDocument>) {
   }
 
-  find(id: string): StationDTO | undefined {
-    const station = this._stations.find((station) => station.id === id);
+  //private _stations: StationDTO[] = [];
+
+  async findAll(): Promise<Station[]> {
+    return await this.stationModel.find().exec();
+  }
+
+  async find(id: string): Promise<Station | undefined> {
+    const station = await this.stationModel.findById(id).exec();
 
     if (!station) {
       throw new Errors([
-        { code: 'STATION_NOT_FOUND', message: 'Station not found' },
+        { code: 'STATION_NOT_FOUND', message: 'Station not found' }
       ]);
     }
 
     return { ...station };
   }
 
-  createStation(station: Omit<StationDTO, 'id'>): StationDTO {
-    const newStation = {
-      ...station,
-      id: v4(),
-    };
-
-    this._stations.push(newStation);
-
-    return newStation;
+  async createStation(station: Omit<StationDTO, 'id'>): Promise<Station> {
+    const createdStation = await new this.stationModel(station);
+    return createdStation.save();
   }
 
-  updateStation(
+  async updateStation(
     id: string,
     station: Partial<Omit<StationDTO, 'id'>>
-  ): StationDTO | undefined {
-    const stationIdx = this._stations.findIndex((item) => item.id === id);
-
-    if (stationIdx === -1) {
-      throw new Errors([
-        { code: 'STATION_NOT_FOUND', message: 'Station not found' },
-      ]);
-    }
-
-    const editedStation = {
-      ...this._stations[stationIdx],
-      ...station,
-      id: id,
-    };
-
-    this._stations.splice(stationIdx, 1, editedStation);
-
-    return editedStation;
+  ): Promise<Station | undefined> {
+    return await this.stationModel.findByIdAndUpdate(id, station).exec();
   }
 
-  deleteStation(id: string): void {
-    const stationIdx = this._stations.findIndex((item) => item.id === id);
-
-    if (stationIdx === -1) {
-      throw new Errors([
-        { code: 'STATION_NOT_FOUND', message: 'Station not found' },
-      ]);
-    }
-
-    this._stations.splice(stationIdx, 1);
+  async deleteStation(id: string): Promise<void> {
+    await this.stationModel.findByIdAndDelete(id).exec();
   }
 }

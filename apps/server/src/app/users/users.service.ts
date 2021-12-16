@@ -1,10 +1,18 @@
-import { UserDTO, Errors } from '@gui-nx/types';
-import { Injectable } from '@nestjs/common';
+import { UserDTO, Errors, UserPermission } from '@gui-nx/types';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { v4 } from 'uuid';
 
 @Injectable()
-export class UsersService {
+export class UsersService implements OnModuleInit {
   private _users: UserDTO[] = [];
+
+  onModuleInit() {
+    this.createUser({
+      email: 'admin',
+      password: 'admin',
+      permission: UserPermission.ADMIN,
+    });
+  }
 
   findAll(): UserDTO[] {
     return this._users.map((user) => {
@@ -24,6 +32,18 @@ export class UsersService {
     const { password, ...userWithoutPassword } = user;
 
     return userWithoutPassword;
+  }
+
+  findByEmail(email: string): UserDTO | undefined {
+    const user = this._users.find((user) => user.email === email);
+
+    if (!user) {
+      throw new Errors([{ code: 'USER_NOT_FOUND', message: 'User not found' }]);
+    }
+
+    const { ...userWithPassword } = user;
+
+    return userWithPassword;
   }
 
   createUser(user: Omit<UserDTO, 'id'>): UserDTO {

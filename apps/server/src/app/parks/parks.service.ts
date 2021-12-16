@@ -1,17 +1,21 @@
 import { ParkDTO, Errors } from '@gui-nx/types';
 import { Injectable } from '@nestjs/common';
 import { v4 } from 'uuid';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Park, ParkDocument } from '@gui-nx/schema';
 
 @Injectable()
 export class ParksService {
-  private _parks: ParkDTO[] = [];
-
-  findAll(): ParkDTO[] {
-    return this._parks;
+  constructor(@InjectModel(Park.name) private parkModel: Model<ParkDocument>) {
   }
 
-  find(id: string): ParkDTO | undefined {
-    const park = this._parks.find((park) => park.id === id);
+  async findAll(): Promise<Park[]> {
+    return await this.parkModel.find().exec();
+  }
+
+  async find(id: string): Promise<Park | undefined> {
+    const park = await this.parkModel.findById(id).exec();
 
     if (!park) {
       throw new Errors([{ code: 'PARK_NOT_FOUND', message: 'Park not found' }]);
@@ -20,45 +24,19 @@ export class ParksService {
     return { ...park };
   }
 
-  createPark(park: Omit<ParkDTO, 'id'>): ParkDTO {
-    const newPark = {
-      ...park,
-      id: v4(),
-    };
-
-    this._parks.push(newPark);
-
-    return newPark;
+  async createPark(park: Omit<ParkDTO, 'id'>): Promise<Park> {
+    const createdPark = await new this.parkModel(park);
+    return createdPark.save();
   }
 
-  updatePark(
+  async updatePark(
     id: string,
     park: Partial<Omit<ParkDTO, 'id'>>
-  ): ParkDTO | undefined {
-    const parkIdx = this._parks.findIndex((item) => item.id === id);
-
-    if (parkIdx === -1) {
-      throw new Errors([{ code: 'PARK_NOT_FOUND', message: 'Park not found' }]);
-    }
-
-    const editedPark = {
-      ...this._parks[parkIdx],
-      ...park,
-      id: id,
-    };
-
-    this._parks.splice(parkIdx, 1, editedPark);
-
-    return editedPark;
+  ): Promise<Park | undefined> {
+    return await this.parkModel.findByIdAndUpdate(id, park).exec();
   }
 
-  deletePark(id: string): void {
-    const parkIdx = this._parks.findIndex((item) => item.id === id);
-
-    if (parkIdx === -1) {
-      throw new Errors([{ code: 'PARK_NOT_FOUND', message: 'Park not found' }]);
-    }
-
-    this._parks.splice(parkIdx, 1);
+  async deletePark(id: string): Promise<void> {
+    await this.parkModel.findByIdAndDelete(id).exec();
   }
 }

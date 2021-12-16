@@ -1,13 +1,12 @@
+import { StationRepository } from '@gui-nx/repositories';
+import {Errors, StationDTO } from '@gui-nx/types';
+import { Alert, AlertTitle, LinearProgress } from '@mui/material';
+import { Formik } from 'formik';
 import { FC, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
 import { StationForm } from '../../stations/StationForm';
-
 import styles from './Station.module.scss';
-import { StationRepository } from '@gui-nx/repositories';
-import { StationDTO, Errors, Error } from '@gui-nx/types';
-import { Alert, AlertTitle, LinearProgress } from '@mui/material';
-import { Formik } from 'formik';
 
 type Params = {
   id?: string;

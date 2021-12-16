@@ -1,12 +1,11 @@
+import { BikeRepository } from '@gui-nx/repositories';
+import { BikeDTO, Errors } from '@gui-nx/types';
 import { Alert, AlertTitle, Button, LinearProgress } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { BikeList } from '../../bikes/BikeList';
-
 import styles from './Bikes.module.scss';
-import { BikeRepository } from '@gui-nx/repositories';
-import { BikeDTO, Errors } from '@gui-nx/types';
 
 export const ManageBikes: FC = () => {
   const bikeRepository = BikeRepository.get();

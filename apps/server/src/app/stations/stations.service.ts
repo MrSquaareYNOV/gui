@@ -1,9 +1,9 @@
-import { StationDTO, Errors } from '@gui-nx/types';
-import { Injectable } from '@nestjs/common';
-import { v4 } from 'uuid';
-import { InjectModel } from '@nestjs/mongoose';
 import { Station, StationDocument } from '@gui-nx/schema';
+import { Errors,StationDTO } from '@gui-nx/types';
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { v4 } from 'uuid';
 
 @Injectable()
 export class StationsService {

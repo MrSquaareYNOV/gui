@@ -1,12 +1,11 @@
+import { UserRepository } from '@gui-nx/repositories';
+import { Errors,UserDTO } from '@gui-nx/types';
 import { Alert, AlertTitle, Button, LinearProgress } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { UserList } from '../../users/UserList';
-
 import styles from './Users.module.scss';
-import { UserRepository } from '@gui-nx/repositories';
-import { UserDTO, Errors } from '@gui-nx/types';
 
 export const ManageUsers: FC = () => {
   const userRepository = UserRepository.get();

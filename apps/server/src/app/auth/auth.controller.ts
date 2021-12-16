@@ -1,6 +1,7 @@
 import { Errors } from '@gui-nx/types';
 import { Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+
 import { InternalError } from '../constants/errors';
 import { AuthService } from './auth.service';
 

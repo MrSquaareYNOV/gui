@@ -1,12 +1,11 @@
+import { ParkRepository } from '@gui-nx/repositories';
+import { Errors, ParkDTO } from '@gui-nx/types';
 import { Alert, AlertTitle, Button, LinearProgress } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { ParkList } from '../../parks/ParkList';
-
 import styles from './Parks.module.scss';
-import { ParkRepository } from '@gui-nx/repositories';
-import { Errors, ParkDTO } from '@gui-nx/types';
 
 export const Parks: FC = () => {
   const parkRepository = ParkRepository.get();

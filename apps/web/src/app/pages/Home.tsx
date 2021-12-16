@@ -1,24 +1,23 @@
 import { Avatar, Button } from '@mui/material';
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { Route, useHistory } from 'react-router-dom';
 
-import styles from './Home.module.scss';
 import { Find } from '../components/find/Find';
-import { List } from '../components/list/List';
-import { Manage } from '../components/manage/Manage';
 import { Bikes } from '../components/list/bikes/Bikes';
-import { Stations } from '../components/list/stations/Stations';
+import { List } from '../components/list/List';
 import { Parks } from '../components/list/parks/Parks';
+import { Stations } from '../components/list/stations/Stations';
 import { Users } from '../components/list/users/Users';
-import { ManageBikes } from '../components/manage/bikes/Bikes';
-import { ManageStations } from '../components/manage/stations/Stations';
-import { ManageParks } from '../components/manage/parks/Parks';
-import { ManageUsers } from '../components/manage/users/Users';
-import { ParkForm } from '../components/parks/ParkForm';
-import { ManagePark } from '../components/manage/parks/Park';
 import { ManageBike } from '../components/manage/bikes/Bike';
+import { ManageBikes } from '../components/manage/bikes/Bikes';
+import { Manage } from '../components/manage/Manage';
+import { ManagePark } from '../components/manage/parks/Park';
+import { ManageParks } from '../components/manage/parks/Parks';
 import { ManageStation } from '../components/manage/stations/Station';
+import { ManageStations } from '../components/manage/stations/Stations';
 import { ManageUser } from '../components/manage/users/User';
+import { ManageUsers } from '../components/manage/users/Users';
+import styles from './Home.module.scss';
 
 export const Home: FC = () => {
   const history = useHistory();

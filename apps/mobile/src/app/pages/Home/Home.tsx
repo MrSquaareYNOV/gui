@@ -1,22 +1,19 @@
-import L, {LatLngExpression} from 'leaflet';
-import React, {FunctionComponent, useEffect, useState} from 'react';
-import {MapContainer, TileLayer, Marker, Popup, Circle} from 'react-leaflet';
-
-import logo from '../../../assets/logo.png';
-
-import styles from './Home.module.scss';
-import {Button} from "@mui/material";
-import Nav, {Page} from "../../components/Nav/Nav";
+import 'leaflet/dist/leaflet.css';
 
 import {ParkRepository, StationRepository} from '@gui-nx/repositories';
 import {Errors, ParkDTO, StationDTO} from '@gui-nx/types';
-
-import 'leaflet/dist/leaflet.css';
-
+import {Button} from "@mui/material";
+import L, {LatLngExpression} from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+import React, {FunctionComponent, useEffect, useState} from 'react';
+import {Circle,MapContainer, Marker, Popup, TileLayer} from 'react-leaflet';
 
-let DefaultIcon = L.icon({
+import logo from '../../../assets/logo.png';
+import Nav, {Page} from "../../components/Nav/Nav";
+import styles from './Home.module.scss';
+
+const DefaultIcon = L.icon({
   iconUrl: icon,
   shadowUrl: iconShadow
 });
@@ -77,7 +74,7 @@ const Home: FunctionComponent<Props> = (props) => {
   const getStationLocation = (station: StationDTO): LatLngExpression => {
     const stationX = station.location.split(",")[0];
     const stationY = station.location.split(",")[1];
-    let stationLoc: [number, number] = [parseFloat(stationX) || 0, parseFloat(stationY) || 0];
+    const stationLoc: [number, number] = [parseFloat(stationX) || 0, parseFloat(stationY) || 0];
     return stationLoc;
   }
 

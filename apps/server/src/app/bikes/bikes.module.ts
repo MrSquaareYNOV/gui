@@ -1,9 +1,10 @@
+import { Bike, BikeSchema } from '@gui-nx/schema';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+
+import { JwtStrategy } from '../auth/jwt.strategy';
 import { BikesController } from './bikes.controller';
 import { BikesService } from './bikes.service';
-import { Bike, BikeSchema } from '@gui-nx/schema';
-import { JwtStrategy } from '../auth/jwt.strategy';
 
 @Module({
   imports: [

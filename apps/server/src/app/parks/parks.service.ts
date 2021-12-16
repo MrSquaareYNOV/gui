@@ -1,9 +1,9 @@
-import { ParkDTO, Errors } from '@gui-nx/types';
+import { Park, ParkDocument } from '@gui-nx/schema';
+import { Errors,ParkDTO } from '@gui-nx/types';
 import { Injectable } from '@nestjs/common';
-import { v4 } from 'uuid';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Park, ParkDocument } from '@gui-nx/schema';
+import { v4 } from 'uuid';
 
 @Injectable()
 export class ParksService {

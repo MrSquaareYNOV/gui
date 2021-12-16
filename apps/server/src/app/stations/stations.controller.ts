@@ -1,10 +1,9 @@
 import {
+  APIErrors,
   APIStation,
   APIStations,
-  APIErrors,
-  StationDTO,
-  Errors
-} from '@gui-nx/types';
+  Errors,
+  StationDTO} from '@gui-nx/types';
 import { StationDTOValidation } from '@gui-nx/validations';
 import {
   Body,
@@ -16,6 +15,7 @@ import {
   Post,
   ValidationPipe
 } from '@nestjs/common';
+
 import { InternalError } from '../constants/errors';
 import { validationPipeExceptionFormatter } from '../exceptions/formatter';
 import { StationsService } from './stations.service';

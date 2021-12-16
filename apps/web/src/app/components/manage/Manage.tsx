@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
 import { FC } from 'react';
-import { Route, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import styles from './Manage.module.scss';
 

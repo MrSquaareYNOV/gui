@@ -1,12 +1,11 @@
+import { StationRepository } from '@gui-nx/repositories';
+import { Errors,StationDTO } from '@gui-nx/types';
 import { Alert, AlertTitle, Button, LinearProgress } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { StationList } from '../../stations/StationList';
-
 import styles from './Stations.module.scss';
-import { StationRepository } from '@gui-nx/repositories';
-import { StationDTO, Errors } from '@gui-nx/types';
 
 export const ManageStations: FC = () => {
   const stationRepository = StationRepository.get();

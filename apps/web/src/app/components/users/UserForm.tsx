@@ -1,4 +1,4 @@
-import { UserDTO, Error } from '@gui-nx/types';
+import { Error,UserDTO } from '@gui-nx/types';
 import { Button, TextField } from '@mui/material';
 import { ChangeEventHandler, FC, FormEventHandler } from 'react';
 

@@ -1,13 +1,12 @@
+import { ParkRepository } from '@gui-nx/repositories';
+import {Errors, ParkDTO } from '@gui-nx/types';
+import { Alert, AlertTitle, LinearProgress } from '@mui/material';
+import { Formik } from 'formik';
 import { FC, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
 import { ParkForm } from '../../parks/ParkForm';
-
 import styles from './Park.module.scss';
-import { ParkRepository } from '@gui-nx/repositories';
-import { ParkDTO, Errors, Error } from '@gui-nx/types';
-import { Alert, AlertTitle, LinearProgress } from '@mui/material';
-import { Formik } from 'formik';
 
 type Params = {
   id?: string;

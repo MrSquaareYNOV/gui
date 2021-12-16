@@ -1,12 +1,12 @@
-import { Button, TextField } from '@mui/material';
-import React, { FC, useEffect, useState } from 'react';
-import Logo from '../../assets/Logo.svg';
-import { Formik } from 'formik';
-
-import styles from './Login.module.scss';
 import { AuthRepository } from '@gui-nx/repositories';
 import { Errors, UserDTO } from '@gui-nx/types';
+import { Button, TextField } from '@mui/material';
+import { Formik } from 'formik';
+import React, { FC, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+
+import Logo from '../../assets/Logo.svg';
+import styles from './Login.module.scss';
 
 export const Login: FC = () => {
   const authRepository = AuthRepository.get();

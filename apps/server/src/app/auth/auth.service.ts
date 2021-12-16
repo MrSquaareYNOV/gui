@@ -1,6 +1,7 @@
+import { Errors,UserDTO, UserPermission } from '@gui-nx/types';
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserPermission, UserDTO, Errors } from '@gui-nx/types';
+
 import { UsersService } from '../users/users.service';
 
 @Injectable()

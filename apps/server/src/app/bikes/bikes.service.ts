@@ -1,6 +1,5 @@
 import { BikeDTO, Errors } from '@gui-nx/types';
 import { Injectable } from '@nestjs/common';
-import { v4 } from 'uuid';
 import { InjectModel } from '@nestjs/mongoose';
 import { Bike, BikeDocument } from '@gui-nx/schema';
 import { Model } from 'mongoose';

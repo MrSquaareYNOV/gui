@@ -7,8 +7,7 @@ import { Park, ParkDocument } from '@gui-nx/schema';
 
 @Injectable()
 export class ParksService {
-  constructor(@InjectModel(Park.name) private parkModel: Model<ParkDocument>) {
-  }
+  constructor(@InjectModel(Park.name) private parkModel: Model<ParkDocument>) {}
 
   async findAll(): Promise<Park[]> {
     return await this.parkModel.find().exec();
@@ -21,7 +20,7 @@ export class ParksService {
       throw new Errors([{ code: 'PARK_NOT_FOUND', message: 'Park not found' }]);
     }
 
-    return { ...park };
+    return { ...park.toObject() };
   }
 
   async createPark(park: Omit<ParkDTO, 'id'>): Promise<Park> {

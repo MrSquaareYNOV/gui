@@ -7,8 +7,9 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class StationsService {
-  constructor(@InjectModel(Station.name) private stationModel: Model<StationDocument>) {
-  }
+  constructor(
+    @InjectModel(Station.name) private stationModel: Model<StationDocument>
+  ) {}
 
   //private _stations: StationDTO[] = [];
 
@@ -21,15 +22,18 @@ export class StationsService {
 
     if (!station) {
       throw new Errors([
-        { code: 'STATION_NOT_FOUND', message: 'Station not found' }
+        { code: 'STATION_NOT_FOUND', message: 'Station not found' },
       ]);
     }
 
-    return { ...station };
+    return { ...station.toObject() };
   }
 
   async createStation(station: Omit<StationDTO, 'id'>): Promise<Station> {
-    const createdStation = await new this.stationModel({ ...station, id: v4() });
+    const createdStation = await new this.stationModel({
+      ...station,
+      id: v4(),
+    });
     return createdStation.save();
   }
 

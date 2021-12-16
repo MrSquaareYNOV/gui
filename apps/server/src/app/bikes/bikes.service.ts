@@ -7,8 +7,7 @@ import { v4 } from 'uuid';
 
 @Injectable()
 export class BikesService {
-  constructor(@InjectModel(Bike.name) private bikeModel: Model<BikeDocument>) {
-  }
+  constructor(@InjectModel(Bike.name) private bikeModel: Model<BikeDocument>) {}
 
   //private _bikes: BikeDTO[] = [];
 
@@ -17,14 +16,13 @@ export class BikesService {
   }
 
   async find(id: string): Promise<Bike | undefined> {
-
     const bike = (await this.bikeModel.find({ id }).exec())[0];
 
     if (!bike) {
       throw new Errors([{ code: 'BIKE_NOT_FOUND', message: 'Bike not found' }]);
     }
 
-    return { ...bike };
+    return { ...bike.toObject() };
   }
 
   async createBike(bike: Omit<BikeDTO, 'id'>): Promise<Bike> {
@@ -41,14 +39,5 @@ export class BikesService {
 
   async deleteBike(id: string): Promise<void> {
     await this.bikeModel.findOneAndDelete({ id }).exec();
-    /*
-    const bikeIdx = this._bikes.findIndex((item) => item.id === id);
-
-    if (bikeIdx === -1) {
-      throw new Errors([{ code: 'BIKE_NOT_FOUND', message: 'Bike not found' }]);
-    }
-
-    this._bikes.splice(bikeIdx, 1);
-     */
   }
 }

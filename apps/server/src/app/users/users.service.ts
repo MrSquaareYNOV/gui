@@ -2,27 +2,26 @@ import { UserDTO, Errors, UserPermission } from '@gui-nx/types';
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { v4 } from 'uuid';
 import { InjectModel } from '@nestjs/mongoose';
-import { Park, ParkDocument, User, UserDocument } from '@gui-nx/schema';
+import { User, UserDocument } from '@gui-nx/schema';
 import { Model } from 'mongoose';
 
 @Injectable()
 export class UsersService implements OnModuleInit {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {
-  }
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-//  private _users: UserDTO[] = [];
+  //  private _users: UserDTO[] = [];
 
   onModuleInit() {
     this.createUser({
       email: 'admin',
       password: 'admin',
-      permission: UserPermission.ADMIN
+      permission: UserPermission.ADMIN,
     });
   }
 
   async findAll(): Promise<User[]> {
     return (await this.userModel.find().exec()).map((user) => {
-      const { password, ...userWithoutPassword } = user;
+      const { password, ...userWithoutPassword } = user.toObject();
 
       return userWithoutPassword;
     });
@@ -35,7 +34,7 @@ export class UsersService implements OnModuleInit {
       throw new Errors([{ code: 'USER_NOT_FOUND', message: 'User not found' }]);
     }
 
-    const { password, ...userWithoutPassword } = user[0];
+    const { password, ...userWithoutPassword } = user[0].toObject();
 
     return userWithoutPassword;
   }
@@ -47,16 +46,15 @@ export class UsersService implements OnModuleInit {
       throw new Errors([{ code: 'USER_NOT_FOUND', message: 'User not found' }]);
     }
 
-    const { ...userWithPassword } = user[0];
+    const { ...userWithPassword } = user[0].toObject();
 
     return userWithPassword;
   }
 
   async createUser(user: Omit<UserDTO, 'id'>): Promise<User> {
+    const createdUser = await new this.userModel({ ...user, id: v4() }).save();
 
-    const createdPark = await new this.userModel({ ...user, id: v4() });
-    createdPark.save();
-    const { password, ...userWithoutPassword } = createdPark;
+    const { password, ...userWithoutPassword } = createdUser;
 
     return userWithoutPassword;
   }
@@ -65,8 +63,9 @@ export class UsersService implements OnModuleInit {
     id: string,
     user: Partial<Omit<UserDTO, 'id'>>
   ): Promise<User | undefined> {
-
-    const editedUser = await this.userModel.findOneAndUpdate({ id }, user).exec();
+    const editedUser = await this.userModel
+      .findOneAndUpdate({ id }, user)
+      .exec();
 
     const { password, ...userWithoutPassword } = editedUser;
 
@@ -74,12 +73,6 @@ export class UsersService implements OnModuleInit {
   }
 
   async deleteUser(id: string): Promise<void> {
-
     await this.userModel.findOneAndDelete({ id }).exec();
-    /* if (userIdx === -1) {
-       throw new Errors([{ code: 'USER_NOT_FOUND', message: 'User not found' }]);
-     }
-    */
-
   }
 }

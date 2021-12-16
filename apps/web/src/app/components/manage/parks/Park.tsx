@@ -4,7 +4,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { ParkForm } from '../../parks/ParkForm';
 
 import styles from './Park.module.scss';
-import { ParkRepository } from '../../../repositories/park';
+import { ParkRepository } from '@gui-nx/repositories';
 import { ParkDTO, Errors, Error } from '@gui-nx/types';
 import { Alert, AlertTitle, LinearProgress } from '@mui/material';
 import { Formik } from 'formik';

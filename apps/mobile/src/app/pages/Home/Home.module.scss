@@ -1,0 +1,52 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+}
+
+.header {
+  width: 80%;
+  display: flex;
+  margin: 20px auto;
+  height: 80px;
+  justify-content: space-between;
+  align-items: center;
+
+  img {
+    height: 50px;
+  }
+
+  div {
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    & > * {
+      margin: 0;
+    }
+
+    & > p {
+      font-size: 12px;
+    }
+  }
+}
+
+.map {
+  height: calc(100vh - 80px);
+  width: 100%;
+}
+
+.cta {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  z-index: 1000;
+
+  button {
+    float: right;
+  }
+}

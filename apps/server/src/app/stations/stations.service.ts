@@ -17,7 +17,7 @@ export class StationsService {
   }
 
   async find(id: string): Promise<Station | undefined> {
-    const station = await this.stationModel.findById(id).exec();
+    const station = (await this.stationModel.find({ id }).exec())[0];
 
     if (!station) {
       throw new Errors([
@@ -37,10 +37,10 @@ export class StationsService {
     id: string,
     station: Partial<Omit<StationDTO, 'id'>>
   ): Promise<Station | undefined> {
-    return await this.stationModel.findByIdAndUpdate(id, station).exec();
+    return await this.stationModel.findOneAndUpdate({ id }, station).exec();
   }
 
   async deleteStation(id: string): Promise<void> {
-    await this.stationModel.findByIdAndDelete(id).exec();
+    await this.stationModel.findOneAndDelete({ id }).exec();
   }
 }

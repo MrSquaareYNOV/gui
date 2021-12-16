@@ -29,7 +29,7 @@ export class UsersService implements OnModuleInit {
   }
 
   async find(id: string): Promise<User | undefined> {
-    const user = await this.userModel.find({ _id: id }).exec();
+    const user = await this.userModel.find({ id }).exec();
 
     if (!user) {
       throw new Errors([{ code: 'USER_NOT_FOUND', message: 'User not found' }]);
@@ -54,7 +54,7 @@ export class UsersService implements OnModuleInit {
 
   async createUser(user: Omit<UserDTO, 'id'>): Promise<User> {
 
-    const createdPark = await new this.userModel({ ...user,id:v4() });
+    const createdPark = await new this.userModel({ ...user, id: v4() });
     createdPark.save();
     const { password, ...userWithoutPassword } = createdPark;
 
@@ -66,7 +66,7 @@ export class UsersService implements OnModuleInit {
     user: Partial<Omit<UserDTO, 'id'>>
   ): Promise<User | undefined> {
 
-    const editedUser = await this.userModel.findByIdAndUpdate(id, user).exec();
+    const editedUser = await this.userModel.findOneAndUpdate({ id }, user).exec();
 
     const { password, ...userWithoutPassword } = editedUser;
 
@@ -75,7 +75,7 @@ export class UsersService implements OnModuleInit {
 
   async deleteUser(id: string): Promise<void> {
 
-    await this.userModel.findByIdAndDelete(id).exec();
+    await this.userModel.findOneAndDelete({ id }).exec();
     /* if (userIdx === -1) {
        throw new Errors([{ code: 'USER_NOT_FOUND', message: 'User not found' }]);
      }

@@ -1,9 +1,15 @@
 import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
 import { BikesController } from './bikes.controller';
 import { BikesService } from './bikes.service';
+import { Bike, BikeSchema } from '@gui-nx/schema';
+import { JwtStrategy } from '../auth/jwt.strategy';
 
 @Module({
-  imports: [],
+  imports: [
+    MongooseModule.forFeature([{ name: Bike.name, schema: BikeSchema }]),
+    JwtStrategy,
+  ],
   controllers: [BikesController],
   providers: [BikesService],
 })

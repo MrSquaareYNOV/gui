@@ -1,4 +1,4 @@
 export type BikeDTO = {
-  id: string;
+  _id: string;
   name: string;
 };

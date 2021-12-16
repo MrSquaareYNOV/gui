@@ -1,17 +1,23 @@
 import { BikeDTO, Errors } from '@gui-nx/types';
 import { Injectable } from '@nestjs/common';
-import { v4 } from 'uuid';
+import { InjectModel } from '@nestjs/mongoose';
+import { Bike, BikeDocument } from '@gui-nx/schema';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class BikesService {
-  private _bikes: BikeDTO[] = [];
-
-  findAll(): BikeDTO[] {
-    return this._bikes;
+  constructor(@InjectModel(Bike.name) private bikeModel: Model<BikeDocument>) {
   }
 
-  find(id: string): BikeDTO | undefined {
-    const bike = this._bikes.find((bike) => bike.id === id);
+  //private _bikes: BikeDTO[] = [];
+
+  async findAll(): Promise<Bike[]> {
+    return await this.bikeModel.find().exec();
+  }
+
+  async find(id: string): Promise<Bike | undefined> {
+
+    const bike = await this.bikeModel.findById(id).exec();
 
     if (!bike) {
       throw new Errors([{ code: 'BIKE_NOT_FOUND', message: 'Bike not found' }]);
@@ -20,39 +26,21 @@ export class BikesService {
     return { ...bike };
   }
 
-  createBike(bike: Omit<BikeDTO, 'id'>): BikeDTO {
-    const newBike = {
-      ...bike,
-      id: v4(),
-    };
-
-    this._bikes.push(newBike);
-
-    return newBike;
+  async createBike(bike: Omit<BikeDTO, 'id'>): Promise<Bike> {
+    const createdBike = await new this.bikeModel(bike);
+    return createdBike.save();
   }
 
-  updateBike(
+  async updateBike(
     id: string,
     bike: Partial<Omit<BikeDTO, 'id'>>
-  ): BikeDTO | undefined {
-    const bikeIdx = this._bikes.findIndex((item) => item.id === id);
-
-    if (bikeIdx === -1) {
-      throw new Errors([{ code: 'BIKE_NOT_FOUND', message: 'Bike not found' }]);
-    }
-
-    const editedBike = {
-      ...this._bikes[bikeIdx],
-      ...bike,
-      id: id,
-    };
-
-    this._bikes.splice(bikeIdx, 1, editedBike);
-
-    return editedBike;
+  ): Promise<Bike | undefined> {
+    return await this.bikeModel.findByIdAndUpdate(id, bike).exec();
   }
 
-  deleteBike(id: string): void {
+  async deleteBike(id: string): Promise<void> {
+    await this.bikeModel.findByIdAndDelete(id).exec();
+    /*
     const bikeIdx = this._bikes.findIndex((item) => item.id === id);
 
     if (bikeIdx === -1) {
@@ -60,5 +48,6 @@ export class BikesService {
     }
 
     this._bikes.splice(bikeIdx, 1);
+     */
   }
 }

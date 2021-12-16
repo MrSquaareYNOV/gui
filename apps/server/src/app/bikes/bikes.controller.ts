@@ -1,4 +1,11 @@
-import { APIBike, APIBikes, APIErrors, BikeDTO, Errors } from '@gui-nx/types';
+import {
+  APIBike,
+  APIBikes,
+  APIErrors,
+  BikeDTO,
+  Errors,
+  UserPermission,
+} from '@gui-nx/types';
 import { BikeDTOValidation } from '@gui-nx/validations';
 import {
   Body,
@@ -8,8 +15,11 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
   ValidationPipe,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { PermissionGuard } from '../auth/permission.guard';
 import { InternalError } from '../constants/errors';
 import { validationPipeExceptionFormatter } from '../exceptions/formatter';
 import { BikesService } from './bikes.service';
@@ -19,9 +29,9 @@ export class BikesController {
   constructor(private readonly bikesService: BikesService) {}
 
   @Get()
-  findAll(): APIBikes | APIErrors {
+  async findAll(): Promise<APIBikes | APIErrors> {
     try {
-      const bikes = this.bikesService.findAll();
+      const bikes = await this.bikesService.findAll();
 
       return { bikes };
     } catch (e) {
@@ -36,9 +46,9 @@ export class BikesController {
   }
 
   @Get('/:id')
-  find(@Param('id') id: string): APIBike | APIErrors {
+  async find(@Param('id') id: string): Promise<APIBike | APIErrors> {
     try {
-      const bike = this.bikesService.find(id);
+      const bike = await this.bikesService.find(id);
 
       return { bike };
     } catch (e) {
@@ -52,15 +62,18 @@ export class BikesController {
     }
   }
 
+  @UseGuards(AuthGuard('jwt'), new PermissionGuard([UserPermission.ADMIN]))
   @Post()
-  createBike(
+  async createBike(
     @Body(
       new ValidationPipe({ exceptionFactory: validationPipeExceptionFormatter })
     )
     body: BikeDTOValidation
-  ): APIBike | APIErrors {
+  ): Promise<APIBike | APIErrors> {
     try {
-      const bike = this.bikesService.createBike(body as Omit<BikeDTO, 'id'>);
+      const bike = await this.bikesService.createBike(
+        body as Omit<BikeDTO, 'id'>
+      );
 
       return { bike };
     } catch (e) {
@@ -74,8 +87,9 @@ export class BikesController {
     }
   }
 
+  @UseGuards(AuthGuard('jwt'), new PermissionGuard([UserPermission.ADMIN]))
   @Patch('/:id')
-  updateBike(
+  async updateBike(
     @Param('id') id: string,
     @Body(
       new ValidationPipe({
@@ -84,9 +98,9 @@ export class BikesController {
       })
     )
     body: BikeDTOValidation
-  ): APIBike | APIErrors {
+  ): Promise<APIBike | APIErrors> {
     try {
-      const bike = this.bikesService.updateBike(
+      const bike = await this.bikesService.updateBike(
         id,
         body as Partial<Omit<BikeDTO, 'id'>>
       );
@@ -103,10 +117,11 @@ export class BikesController {
     }
   }
 
+  @UseGuards(AuthGuard('jwt'), new PermissionGuard([UserPermission.ADMIN]))
   @Delete('/:id')
-  deleteBike(@Param('id') id: string): any | APIErrors {
+  async deleteBike(@Param('id') id: string): Promise<any | APIErrors> {
     try {
-      this.bikesService.deleteBike(id);
+      await this.bikesService.deleteBike(id);
 
       return {};
     } catch (e) {

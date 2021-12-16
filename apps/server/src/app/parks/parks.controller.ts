@@ -8,7 +8,7 @@ import {
   Param,
   Patch,
   Post,
-  ValidationPipe,
+  ValidationPipe
 } from '@nestjs/common';
 import { InternalError } from '../constants/errors';
 import { validationPipeExceptionFormatter } from '../exceptions/formatter';
@@ -16,12 +16,13 @@ import { ParksService } from './parks.service';
 
 @Controller('parks')
 export class ParksController {
-  constructor(private readonly parksService: ParksService) {}
+  constructor(private readonly parksService: ParksService) {
+  }
 
   @Get()
-  findAll(): APIParks | APIErrors {
+  async findAll(): Promise<APIParks | APIErrors> {
     try {
-      const parks = this.parksService.findAll();
+      const parks = await this.parksService.findAll();
 
       return { parks };
     } catch (e) {
@@ -36,9 +37,9 @@ export class ParksController {
   }
 
   @Get('/:id')
-  find(@Param('id') id: string): APIPark | APIErrors {
+  async find(@Param('id') id: string): Promise<APIPark | APIErrors> {
     try {
-      const park = this.parksService.find(id);
+      const park = await this.parksService.find(id);
 
       return { park };
     } catch (e) {
@@ -53,14 +54,14 @@ export class ParksController {
   }
 
   @Post()
-  createPark(
+  async createPark(
     @Body(
       new ValidationPipe({ exceptionFactory: validationPipeExceptionFormatter })
     )
-    body: ParkDTOValidation
-  ): APIPark | APIErrors {
+      body: ParkDTOValidation
+  ): Promise<APIPark | APIErrors> {
     try {
-      const park = this.parksService.createPark(body as Omit<ParkDTO, 'id'>);
+      const park = await this.parksService.createPark(body as Omit<ParkDTO, 'id'>);
 
       return { park };
     } catch (e) {
@@ -75,18 +76,18 @@ export class ParksController {
   }
 
   @Patch('/:id')
-  updatePark(
+  async updatePark(
     @Param('id') id: string,
     @Body(
       new ValidationPipe({
         exceptionFactory: validationPipeExceptionFormatter,
-        skipMissingProperties: true,
+        skipMissingProperties: true
       })
     )
-    body: ParkDTOValidation
-  ): APIPark | APIErrors {
+      body: ParkDTOValidation
+  ): Promise<APIPark | APIErrors> {
     try {
-      const park = this.parksService.updatePark(
+      const park = await this.parksService.updatePark(
         id,
         body as Partial<Omit<ParkDTO, 'id'>>
       );
@@ -104,9 +105,9 @@ export class ParksController {
   }
 
   @Delete('/:id')
-  deletePark(@Param('id') id: string): any | APIErrors {
+  async deletePark(@Param('id') id: string): Promise<any | APIErrors> {
     try {
-      this.parksService.deletePark(id);
+      await this.parksService.deletePark(id);
 
       return {};
     } catch (e) {

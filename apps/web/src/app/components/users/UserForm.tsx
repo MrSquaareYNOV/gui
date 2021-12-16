@@ -1,25 +1,27 @@
-import { UserDTO } from '@gui-nx/types';
+import { UserDTO, Error } from '@gui-nx/types';
 import { Button, TextField } from '@mui/material';
-import { FC, FormEventHandler } from 'react';
+import { ChangeEventHandler, FC, FormEventHandler } from 'react';
 
 import styles from './UserForm.module.scss';
 
 type Props = {
-  user?: UserDTO;
-  onSubmit?: FormEventHandler;
+  user: UserDTO;
+  errors: Record<keyof Omit<UserDTO, 'id'>, Error[]>;
+  onChange?: ChangeEventHandler;
+  onSubmit?: FormEventHandler<HTMLFormElement>;
 };
 
-export const UserForm: FC<Props> = ({ user, onSubmit }) => {
+export const UserForm: FC<Props> = ({ user, errors, onChange, onSubmit }) => {
   return (
     <form className={styles.container} onSubmit={onSubmit}>
-      {user ? (
+      {user.id ? (
         <div className={styles.inputContainer}>
           <TextField
             id="id"
             label="ID"
             variant="outlined"
-            value={user?.id || ''}
-            fullWidth
+            value={user.id}
+            onChange={onChange}
             disabled
           />
         </div>
@@ -29,8 +31,12 @@ export const UserForm: FC<Props> = ({ user, onSubmit }) => {
           id="email"
           label="E-mail"
           variant="outlined"
-          value={user?.email || ''}
-          fullWidth
+          value={user.email}
+          onChange={onChange}
+          error={!!errors.email.length}
+          helperText={errors.email.map((error) => {
+            return <div key={error.code}>{error.message}</div>;
+          })}
         />
       </div>
       <div className={styles.inputContainer}>
@@ -38,13 +44,18 @@ export const UserForm: FC<Props> = ({ user, onSubmit }) => {
           id="password"
           label="Mot de passe"
           variant="outlined"
-          value={''}
-          fullWidth
+          type="password"
+          value={user.password}
+          onChange={onChange}
+          error={!!errors.password.length}
+          helperText={errors.password.map((error) => {
+            return <div key={error.code}>{error.message}</div>;
+          })}
         />
       </div>
       <div className={styles.buttonContainer}>
         <Button variant="contained" type="submit">
-          {user ? 'Éditer' : 'Ajouter'}
+          {user.id ? 'Éditer' : 'Ajouter'}
         </Button>
       </div>
     </form>

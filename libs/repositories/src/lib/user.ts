@@ -1,7 +1,7 @@
 import { UserDTO } from '@gui-nx/types';
 import axios from 'axios';
-import { API_BASE_URL } from '../constants/api';
-import { getError } from '../utilities/errors';
+import { API_BASE_URL } from './constants';
+import { getError } from './utilities';
 
 export class UserRepository {
   // eslint-disable-next-line @typescript-eslint/no-empty-function

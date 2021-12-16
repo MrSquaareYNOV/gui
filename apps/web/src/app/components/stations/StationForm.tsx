@@ -1,25 +1,32 @@
-import { StationDTO } from '@gui-nx/types';
+import { StationDTO, Error } from '@gui-nx/types';
 import { Button, TextField } from '@mui/material';
-import { FC, FormEventHandler } from 'react';
+import { ChangeEventHandler, FC, FormEventHandler } from 'react';
 
 import styles from './StationForm.module.scss';
 
 type Props = {
-  station?: StationDTO;
-  onSubmit?: FormEventHandler;
+  station: StationDTO;
+  errors: Record<keyof Omit<StationDTO, 'id'>, Error[]>;
+  onChange?: ChangeEventHandler;
+  onSubmit?: FormEventHandler<HTMLFormElement>;
 };
 
-export const StationForm: FC<Props> = ({ station, onSubmit }) => {
+export const StationForm: FC<Props> = ({
+  station,
+  errors,
+  onChange,
+  onSubmit,
+}) => {
   return (
     <form className={styles.container} onSubmit={onSubmit}>
-      {station ? (
+      {station.id ? (
         <div className={styles.inputContainer}>
           <TextField
             id="id"
             label="ID"
             variant="outlined"
-            value={station?.id || ''}
-            fullWidth
+            value={station.id}
+            onChange={onChange}
             disabled
           />
         </div>
@@ -29,8 +36,12 @@ export const StationForm: FC<Props> = ({ station, onSubmit }) => {
           id="name"
           label="Nom"
           variant="outlined"
-          value={station?.name || ''}
-          fullWidth
+          value={station.name}
+          onChange={onChange}
+          error={!!errors.name.length}
+          helperText={errors.name.map((error) => {
+            return <div key={error.code}>{error.message}</div>;
+          })}
         />
       </div>
       <div className={styles.inputContainer}>
@@ -38,13 +49,17 @@ export const StationForm: FC<Props> = ({ station, onSubmit }) => {
           id="location"
           label="Localisation"
           variant="outlined"
-          value={station?.location || ''}
-          fullWidth
+          value={station.location}
+          onChange={onChange}
+          error={!!errors.location.length}
+          helperText={errors.location.map((error) => {
+            return <div key={error.code}>{error.message}</div>;
+          })}
         />
       </div>
       <div className={styles.buttonContainer}>
         <Button variant="contained" type="submit">
-          {station ? 'Éditer' : 'Ajouter'}
+          {station.id ? 'Éditer' : 'Ajouter'}
         </Button>
       </div>
     </form>

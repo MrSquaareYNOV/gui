@@ -4,7 +4,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { UserForm } from '../../users/UserForm';
 
 import styles from './User.module.scss';
-import { UserRepository } from '../../../repositories/user';
+import { UserRepository } from '@gui-nx/repositories';
 import { UserDTO, Errors, Error } from '@gui-nx/types';
 import { Alert, AlertTitle, LinearProgress } from '@mui/material';
 import { Formik } from 'formik';
@@ -41,6 +41,10 @@ export const ManageUser: FC = () => {
     rentalPosition:
       fieldErrors?.filter(
         (error) => error.code === 'INVALID_FIELD_RENTALPOSITION'
+      ) || [],
+    permission:
+      fieldErrors?.filter(
+        (error) => error.code === 'INVALID_FIELD_PERMISSION'
       ) || [],
   };
 
@@ -138,6 +142,7 @@ export const ManageUser: FC = () => {
             password: '',
             rentalBikeId: '',
             rentalPosition: '',
+            permission: 0,
           }
         }
         enableReinitialize={true}

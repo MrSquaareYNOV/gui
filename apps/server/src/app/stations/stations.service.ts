@@ -7,8 +7,9 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class StationsService {
-  constructor(@InjectModel(Station.name) private stationModel: Model<StationDocument>) {
-  }
+  constructor(
+    @InjectModel(Station.name) private stationModel: Model<StationDocument>
+  ) {}
 
   //private _stations: StationDTO[] = [];
 
@@ -17,19 +18,22 @@ export class StationsService {
   }
 
   async find(id: string): Promise<Station | undefined> {
-    const station = await this.stationModel.findById(id).exec();
+    const station = (await this.stationModel.find({ id }).exec())[0];
 
     if (!station) {
       throw new Errors([
-        { code: 'STATION_NOT_FOUND', message: 'Station not found' }
+        { code: 'STATION_NOT_FOUND', message: 'Station not found' },
       ]);
     }
 
-    return { ...station };
+    return { ...station.toObject() };
   }
 
   async createStation(station: Omit<StationDTO, 'id'>): Promise<Station> {
-    const createdStation = await new this.stationModel(station);
+    const createdStation = await new this.stationModel({
+      ...station,
+      id: v4(),
+    });
     return createdStation.save();
   }
 
@@ -37,10 +41,10 @@ export class StationsService {
     id: string,
     station: Partial<Omit<StationDTO, 'id'>>
   ): Promise<Station | undefined> {
-    return await this.stationModel.findByIdAndUpdate(id, station).exec();
+    return await this.stationModel.findOneAndUpdate({ id }, station).exec();
   }
 
   async deleteStation(id: string): Promise<void> {
-    await this.stationModel.findByIdAndDelete(id).exec();
+    await this.stationModel.findOneAndDelete({ id }).exec();
   }
 }

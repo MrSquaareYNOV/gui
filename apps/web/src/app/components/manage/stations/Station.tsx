@@ -4,7 +4,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { StationForm } from '../../stations/StationForm';
 
 import styles from './Station.module.scss';
-import { StationRepository } from '../../../repositories/station';
+import { StationRepository } from '@gui-nx/repositories';
 import { StationDTO, Errors, Error } from '@gui-nx/types';
 import { Alert, AlertTitle, LinearProgress } from '@mui/material';
 import { Formik } from 'formik';

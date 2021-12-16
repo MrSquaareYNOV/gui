@@ -7,25 +7,24 @@ import { Park, ParkDocument } from '@gui-nx/schema';
 
 @Injectable()
 export class ParksService {
-  constructor(@InjectModel(Park.name) private parkModel: Model<ParkDocument>) {
-  }
+  constructor(@InjectModel(Park.name) private parkModel: Model<ParkDocument>) {}
 
   async findAll(): Promise<Park[]> {
     return await this.parkModel.find().exec();
   }
 
   async find(id: string): Promise<Park | undefined> {
-    const park = await this.parkModel.findById(id).exec();
+    const park = (await this.parkModel.find({ id }).exec())[0];
 
     if (!park) {
       throw new Errors([{ code: 'PARK_NOT_FOUND', message: 'Park not found' }]);
     }
 
-    return { ...park };
+    return { ...park.toObject() };
   }
 
   async createPark(park: Omit<ParkDTO, 'id'>): Promise<Park> {
-    const createdPark = await new this.parkModel(park);
+    const createdPark = await new this.parkModel({ ...park, id: v4() });
     return createdPark.save();
   }
 
@@ -33,10 +32,15 @@ export class ParksService {
     id: string,
     park: Partial<Omit<ParkDTO, 'id'>>
   ): Promise<Park | undefined> {
-    return await this.parkModel.findByIdAndUpdate(id, park).exec();
+    /*
+       if (userIdx === -1) {
+      throw new Errors([{ code: 'USER_NOT_FOUND', message: 'User not found' }]);
+    }
+     */
+    return await this.parkModel.findOneAndUpdate({ id }, park).exec();
   }
 
   async deletePark(id: string): Promise<void> {
-    await this.parkModel.findByIdAndDelete(id).exec();
+    await this.parkModel.findOneAndDelete({ id }).exec();
   }
 }

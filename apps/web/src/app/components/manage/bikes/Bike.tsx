@@ -4,7 +4,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { BikeForm } from '../../bikes/BikeForm';
 
 import styles from './Bike.module.scss';
-import { BikeRepository } from '../../../repositories/bike';
+import { BikeRepository } from '@gui-nx/repositories';
 import { BikeDTO, Errors, Error } from '@gui-nx/types';
 import { Alert, AlertTitle, LinearProgress } from '@mui/material';
 import { Formik } from 'formik';

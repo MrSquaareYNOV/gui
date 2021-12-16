@@ -1,5 +1,5 @@
 export type StationDTO = {
-  _id: string;
+  id: string;
   name: string;
   location: string;
   currentBikesIds: string[];

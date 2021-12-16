@@ -1,7 +1,6 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { UserPermission } from '@gui-nx/types';
 import { Observable } from 'rxjs';
-
 @Injectable()
 export class PermissionGuard implements CanActivate {
   constructor(private permissions: UserPermission[]) {}

@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { UserList } from '../../users/UserList';
 
 import styles from './Users.module.scss';
-import { UserRepository } from '../../../repositories/user';
+import { UserRepository } from '@gui-nx/repositories';
 import { UserDTO, Errors } from '@gui-nx/types';
 
 export const ManageUsers: FC = () => {

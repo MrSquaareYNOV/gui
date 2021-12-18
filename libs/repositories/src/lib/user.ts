@@ -1,5 +1,6 @@
 import { UserDTO } from '@gui-nx/types';
 import axios from 'axios';
+
 import { API_BASE_URL } from './constants';
 import { getError } from './utilities';
 

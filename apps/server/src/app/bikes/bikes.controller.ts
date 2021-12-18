@@ -19,6 +19,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+
 import { PermissionGuard } from '../auth/permission.guard';
 import { InternalError } from '../constants/errors';
 import { validationPipeExceptionFormatter } from '../exceptions/formatter';

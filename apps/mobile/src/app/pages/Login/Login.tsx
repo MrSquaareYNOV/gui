@@ -1,5 +1,5 @@
-import React, { FunctionComponent } from 'react';
-import logo from "../../../assets/logo.png"
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {
   Button,
   FormControl,
@@ -9,11 +9,10 @@ import {
   InputLabel,
   TextField
 } from "@mui/material";
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-
+import React, { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
 
+import logo from "../../../assets/logo.png"
 import styles from "./Login.module.scss";
 
 interface OwnProps {}

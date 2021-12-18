@@ -1,13 +1,12 @@
+import { UserRepository } from '@gui-nx/repositories';
+import {Errors, UserDTO } from '@gui-nx/types';
+import { Alert, AlertTitle, LinearProgress } from '@mui/material';
+import { Formik } from 'formik';
 import { FC, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
 import { UserForm } from '../../users/UserForm';
-
 import styles from './User.module.scss';
-import { UserRepository } from '@gui-nx/repositories';
-import { UserDTO, Errors, Error } from '@gui-nx/types';
-import { Alert, AlertTitle, LinearProgress } from '@mui/material';
-import { Formik } from 'formik';
 
 type Params = {
   id?: string;

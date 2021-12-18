@@ -1,5 +1,5 @@
 import { StationDTO } from '@gui-nx/types';
-import { IsString, MinLength, IsArray, IsNumber } from 'class-validator';
+import { IsArray, IsNumber,IsString, MinLength } from 'class-validator';
 
 export class StationDTOValidation implements Partial<Omit<StationDTO, 'id'>> {
   @IsString()

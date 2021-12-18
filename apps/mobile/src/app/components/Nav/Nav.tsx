@@ -1,7 +1,8 @@
 import React, {FunctionComponent} from 'react';
-import styles from "./Nav.module.scss";
+
 import map from "../../../assets/map.png";
 import settings from "../../../assets/settings.png";
+import styles from "./Nav.module.scss";
 
 export enum Page {
   map,

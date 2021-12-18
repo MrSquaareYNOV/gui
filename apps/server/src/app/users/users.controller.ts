@@ -1,4 +1,4 @@
-import { APIUser, APIUsers, APIErrors, UserDTO, Errors } from '@gui-nx/types';
+import { APIErrors, APIUser, APIUsers, Errors,UserDTO } from '@gui-nx/types';
 import { UserDTOValidation } from '@gui-nx/validations';
 import {
   Body,
@@ -10,6 +10,7 @@ import {
   Post,
   ValidationPipe
 } from '@nestjs/common';
+
 import { InternalError } from '../constants/errors';
 import { validationPipeExceptionFormatter } from '../exceptions/formatter';
 import { UsersService } from './users.service';

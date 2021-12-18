@@ -1,3 +1,6 @@
+import { StationDTO } from '@gui-nx/types';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import {
   IconButton,
   Paper,
@@ -9,10 +12,6 @@ import {
   TableRow,
 } from '@mui/material';
 import { FC } from 'react';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-
-import { StationDTO } from '@gui-nx/types';
 
 type Props = {
   stations: StationDTO[];
